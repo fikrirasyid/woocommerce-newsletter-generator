@@ -1,0 +1,181 @@
+@mixin border_box{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+@mixin button_control{
+	border: 0;
+	background: #444;
+	color: white;
+	padding: 4px 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 10px;
+
+	&:hover{
+		background: #666;
+	}
+
+	&:active{
+		background: #000;
+	}	
+}
+
+@mixin button_action{
+	border: 0;
+	background: #4495F4;
+	color: white;
+	padding: 12px 30px;
+	border-radius: 5px;
+	cursor: pointer;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 14px;
+
+	&:hover{
+		background: #6EA8EC;
+	}
+
+	&:active{
+		background: #1661B9;
+	}		
+}
+
+.edit-content-block{
+	position: relative;
+
+	.toggle-edit-block{
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		@include button_control;
+	}
+}
+
+// Block Selector
+#block-selector{
+	position: fixed;
+	top: 10%;
+	right: 20%;
+	bottom: 10%;
+	left: 20%;
+	padding: 20px;
+	background: #fff;
+	z-index: 150;
+	display: none;
+	overflow: auto;
+
+	.edit-block-form{
+		display: none;
+
+		label{
+			display: block;
+			text-transform: uppercase;
+			font-size: 11px;
+			letter-spacing: 1px;
+		}
+
+		input[type="text"]{
+			display: block;
+			width: 100%;
+			border: 1px solid #dfdfdf;
+			font-size: 14px;
+			padding: 5px 15px;
+			@include border_box;
+		}
+
+		textarea{
+			display: block;
+			width: 100%;
+			height: 100px;
+			border: 1px solid #dfdfdf;
+			font-size: 14px;
+			padding: 15px;
+			@include border_box;
+			resize: none;
+		}
+
+		#select-product-list{
+			margin: 0;
+			padding: 0;
+
+			li{
+				list-style: none;
+				border: 1px solid #efefef;
+				margin-bottom: 10px;
+				padding: 10px 10px 10px 120px;;
+				position: relative;
+				min-height: 100px;
+
+				input[type="radio"]{
+					position: absolute;
+					top: 10px;
+					left: 10px;
+				}
+
+				.image-wrap{
+					display: block;
+					background: #efefef;
+					width: 100px;
+					height: 100px;
+					position: absolute;
+					top: 10px;
+					left: 10px;
+				}
+
+				.product-name,
+				.product-price,
+				.product-action{
+					display: block;
+					margin-bottom: 5px;
+				}
+
+				.product-name{
+					font-weight: bold;
+
+					a{
+						font-size: 16px;
+						color: #444;
+					}
+				}
+
+				.select-this-product{
+					@include button_control;
+				}
+			}
+		}
+
+		input[type="submit"]{
+			@include button_action;
+		}
+	}
+}
+
+// Selector Title
+#selector-title{
+	margin: 0 0 10px;
+}
+
+#close-selector{
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	@include button_control;
+}
+
+// Modal Background
+#modal-background{
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: #000;
+	opacity: .5;
+	content: '';
+	z-index: 100;
+	display: none;
+}

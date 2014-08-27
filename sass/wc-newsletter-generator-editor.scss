@@ -1,0 +1,16 @@
+#newsletter-metabox{
+	label{
+		display: block;
+		margin: 0 0 10px;
+		font-weight: bold;
+	}
+}
+
+#newsletter-preview{
+	display: block;
+	width: 100%;
+	height: 800px;
+	content: '';
+	background: #fff;
+	border: 1px solid #efefef;
+}

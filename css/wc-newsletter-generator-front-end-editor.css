@@ -1,0 +1,178 @@
+.edit-content-block {
+  position: relative;
+}
+.edit-content-block .toggle-edit-block {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: 0;
+  background: #444;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 10px;
+}
+.edit-content-block .toggle-edit-block:hover {
+  background: #666;
+}
+.edit-content-block .toggle-edit-block:active {
+  background: #000;
+}
+
+#block-selector {
+  position: fixed;
+  top: 10%;
+  right: 20%;
+  bottom: 10%;
+  left: 20%;
+  padding: 20px;
+  background: #fff;
+  z-index: 150;
+  display: none;
+  overflow: auto;
+}
+#block-selector .edit-block-form {
+  display: none;
+}
+#block-selector .edit-block-form label {
+  display: block;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+#block-selector .edit-block-form input[type="text"] {
+  display: block;
+  width: 100%;
+  border: 1px solid #dfdfdf;
+  font-size: 14px;
+  padding: 5px 15px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#block-selector .edit-block-form textarea {
+  display: block;
+  width: 100%;
+  height: 100px;
+  border: 1px solid #dfdfdf;
+  font-size: 14px;
+  padding: 15px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  resize: none;
+}
+#block-selector .edit-block-form #select-product-list {
+  margin: 0;
+  padding: 0;
+}
+#block-selector .edit-block-form #select-product-list li {
+  list-style: none;
+  border: 1px solid #efefef;
+  margin-bottom: 10px;
+  padding: 10px 10px 10px 120px;
+  position: relative;
+  min-height: 100px;
+}
+#block-selector .edit-block-form #select-product-list li input[type="radio"] {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+#block-selector .edit-block-form #select-product-list li .image-wrap {
+  display: block;
+  background: #efefef;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+#block-selector .edit-block-form #select-product-list li .product-name,
+#block-selector .edit-block-form #select-product-list li .product-price,
+#block-selector .edit-block-form #select-product-list li .product-action {
+  display: block;
+  margin-bottom: 5px;
+}
+#block-selector .edit-block-form #select-product-list li .product-name {
+  font-weight: bold;
+}
+#block-selector .edit-block-form #select-product-list li .product-name a {
+  font-size: 16px;
+  color: #444;
+}
+#block-selector .edit-block-form #select-product-list li .select-this-product {
+  border: 0;
+  background: #444;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 10px;
+}
+#block-selector .edit-block-form #select-product-list li .select-this-product:hover {
+  background: #666;
+}
+#block-selector .edit-block-form #select-product-list li .select-this-product:active {
+  background: #000;
+}
+#block-selector .edit-block-form input[type="submit"] {
+  border: 0;
+  background: #4495F4;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 14px;
+}
+#block-selector .edit-block-form input[type="submit"]:hover {
+  background: #6EA8EC;
+}
+#block-selector .edit-block-form input[type="submit"]:active {
+  background: #1661B9;
+}
+
+#selector-title {
+  margin: 0 0 10px;
+}
+
+#close-selector {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border: 0;
+  background: #444;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 10px;
+}
+#close-selector:hover {
+  background: #666;
+}
+#close-selector:active {
+  background: #000;
+}
+
+#modal-background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #000;
+  opacity: .5;
+  content: '';
+  z-index: 100;
+  display: none;
+}
