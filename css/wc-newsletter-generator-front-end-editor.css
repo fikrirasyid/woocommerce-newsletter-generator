@@ -91,6 +91,9 @@
   top: 10px;
   left: 10px;
 }
+#block-selector .edit-block-form #select-product-list li .image-wrap img {
+  width: 100%;
+}
 #block-selector .edit-block-form #select-product-list li .product-name,
 #block-selector .edit-block-form #select-product-list li .product-price,
 #block-selector .edit-block-form #select-product-list li .product-action {

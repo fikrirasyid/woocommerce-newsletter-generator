@@ -62,15 +62,9 @@ function wcng_email_footer(){
         <p>
           <label for=""><?php _e( 'Select Product', 'woocommerce-newsletter-generator' ); ?></label>
         </p>
-
+        
         <ul id="select-product-list">
-          <li>
-            <span class="image-wrap"></span>
-
-            <span class="product-name"><a href="#page">Product Name</a></span>
-            <span class="product-price">Rp 200.000</span>
-            <span class="product-action"><button class="select-this-product"><?php _e( 'Select This Product', 'woocommerce-newsletter-generator' ); ?></button></span>
-          </li>
+          <?php wcng_the_products(); ?>
         </ul>
       </form><!-- #edit-product -->
       
@@ -206,4 +200,44 @@ function wcng_text_block( $block_id = 'footer', $default = ''){
     echo "</div>";
     echo "</div>";
   }  
+}
+
+/**
+ * Get products
+ */
+function wcng_the_products(){
+  $posts = new WP_Query(array(
+    'post_type' => 'product'
+  ));
+
+  if( $posts->have_posts() ){
+    while( $posts->have_posts() ){
+      $posts->the_post();
+
+      $product = new WC_Product( get_the_ID() );
+      ?>
+          <li>
+            <span class="image-wrap">
+              <?php
+                if( has_post_thumbnail() ){
+                  the_post_thumbnail( 'thumbnail' );
+                }
+              ?>
+            </span>
+
+            <span class="product-name">
+              <a href="<?php the_permalink();?>" title="<?php the_title(); ?>"><?php the_title(); ?></a>
+            </span>
+            <span class="product-price">
+              <?php echo $product->get_price_html(); ?>
+            </span>
+            <span class="product-action">
+              <button class="select-this-product" data-product-id="<?php get_the_ID(); ?>"><?php _e( 'Select This Product', 'woocommerce-newsletter-generator' ); ?></button>
+            </span>
+          </li>
+      <?php
+    }
+  }
+
+  wp_reset_postdata();
 }
