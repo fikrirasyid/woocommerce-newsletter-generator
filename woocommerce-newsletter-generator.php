@@ -21,10 +21,11 @@ if (!defined('WC_NEWSLETTER_GENERATOR_URL'))
 /**
  * Requiring files
  */
+require_once( 'includes/functions-wc-newsletter-generator-template-tags.php' );
 require_once( 'includes/class-wc-newsletter-generator.php' );
 require_once( 'includes/class-wc-newsletter-generator-editor.php' );
 require_once( 'includes/class-wc-newsletter-generator-public.php' );
-require_once( 'includes/functions-wc-newsletter-generator-template-tags.php' );
+require_once( 'includes/class-wc-newsletter-generator-ajax.php' );
 
 /**
  * Setup plugin

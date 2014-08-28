@@ -124,6 +124,40 @@
 #block-selector .edit-block-form #select-product-list li .select-this-product:active {
   background: #000;
 }
+#block-selector .edit-block-form #loading-more-products {
+  text-align: center;
+  padding: 25px 0;
+  color: #afafaf;
+  display: none;
+}
+#block-selector .edit-block-form #loading-more-products img {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+#block-selector .edit-block-form #loading-more-products .label {
+  vertical-align: middle;
+}
+#block-selector .edit-block-form #load-more-products {
+  border: 0;
+  background: #4495F4;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 14px;
+  display: block;
+  margin: 40px auto;
+}
+#block-selector .edit-block-form #load-more-products:hover {
+  background: #6EA8EC;
+}
+#block-selector .edit-block-form #load-more-products:active {
+  background: #1661B9;
+}
 #block-selector .edit-block-form input[type="submit"] {
   border: 0;
   background: #4495F4;

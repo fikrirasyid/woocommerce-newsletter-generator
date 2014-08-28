@@ -152,6 +152,30 @@
 			}
 		}
 
+		#loading-more-products{
+			text-align: center;
+			padding: 25px 0;
+			color: #afafaf;
+			display: none;
+
+			img{
+				width: 16px;
+				height: 16px;
+				vertical-align: middle;
+				margin-right: 5px;
+			}
+
+			.label{
+				vertical-align: middle;
+			}
+		}
+
+		#load-more-products{
+			@include button_action;
+			display: block;
+			margin: 40px auto;
+		}
+
 		input[type="submit"]{
 			@include button_action;
 		}

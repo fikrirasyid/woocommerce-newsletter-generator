@@ -104,9 +104,12 @@ jQuery(document).ready(function($){
 		var product_id = button.attr('data-product-id');
 		var product_img = product.find('.image-wrap img').attr('src');
 		var product_name = product.find('.product-name').html();
+		var product_name_only = product.find('.product-name a').text();
 		var product_price = product.find('.product-price').html();
+		var product_permalink = product.find('.product-name a').attr('href');
 
 		// Update UI
+		$('.edit-content-block[data-id="'+target+'"] .product-image a').attr({ 'href' : product_permalink, 'title' : product_name_only });
 		$('.edit-content-block[data-id="'+target+'"] .product-image img').attr('src', product_img);
 		$('.edit-content-block[data-id="'+target+'"] .product-name').html(product_name);
 		$('.edit-content-block[data-id="'+target+'"] .product-price').html(product_price);
@@ -115,6 +118,70 @@ jQuery(document).ready(function($){
 		close_edit_ui();
 
 		// Sync to server
+	});
+
+	/**
+	 * Load more products
+	*/
+	$('#load-more-products').click(function(e){
+	 	e.preventDefault();
+
+	 	var button = $(this);
+	 	var paged = button.attr( 'data-paged' );
+	 	var nonce = button.attr( 'data-nonce' );
+	 	var endpoint = $('#edit-product').attr('action');
+
+	 	// Enter loading state
+	 	$('#load-more-products').hide();
+	 	$('#loading-more-products').show();
+
+	 	// Get more products
+	 	$.ajax({
+	 		type : 'GET',
+	 		url : endpoint,
+	 		data : {
+	 			_n : nonce,
+	 			paged : paged,
+	 			method : 'get_products'
+	 		}
+	 	}).done(function(response){
+	 		var data = $.parseJSON( response );
+
+	 		if( data == 'all_loaded' ){
+	 			// Notify user if all products information has been loaded
+	 			alert( 'All products have been displayed' );
+
+	 			$('#loading-more-products').hide();
+	 		} else if( data != false ){
+	 			// Append the data to product list
+	 			for (var i = 0; i < data.length; i++) {
+	 				// Prepare template
+	 				product_item = $('#template-product-item').clone().html();
+
+	 				// Append product item to product list
+	 				$('#select-product-list').append( product_item );
+
+	 				// Insert data to template
+	 				if( data[i].image ){
+		 				$('#select-product-list li:last .image-wrap').html('<img src="'+data[i].image+'" alt="'+data[i].title+'" />');
+	 				}
+	 				$('#select-product-list li:last .product-name a').attr({ 'href' : data[i].permalink, 'title' : data[i].title }).text( data[i].title );
+	 				$('#select-product-list li:last .product-price').html(data[i].price);
+	 				$('#select-product-list li:last .select-this-product').attr('data-product-id', data[i].id );
+	 			};
+
+	 			// +1 to paged data
+	 			paged = parseInt( paged ) + 1;	 			
+	 			button.attr( 'data-paged', paged );
+
+	 			// End loading state
+			 	$('#load-more-products').show();
+			 	$('#loading-more-products').hide();
+	 		} else {
+	 			// Something isn't right
+	 			alert( 'Error getting error data. Please try again.');
+	 		}
+	 	});
 	});
 
 	/**
