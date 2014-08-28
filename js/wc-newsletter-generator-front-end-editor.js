@@ -93,6 +93,28 @@ jQuery(document).ready(function($){
 	});
 
 	// Product
+	$('#block-selector').on( 'click', '.select-this-product', function(e){
+		e.preventDefault();
+
+		// Get values
+		var button = $(this);
+		var product = button.parents('li');
+		var target = $('#block-selector').attr('data-target');
+		var product_id = button.attr('data-product-id');
+		var product_img = product.find('.image-wrap img').attr('src');
+		var product_name = product.find('.product-name').html();
+		var product_price = product.find('.product-price').html();
+
+		// Update UI
+		$('.edit-content-block[data-id="'+target+'"] .product-image img').attr('src', product_img);
+		$('.edit-content-block[data-id="'+target+'"] .product-name').html(product_name);
+		$('.edit-content-block[data-id="'+target+'"] .product-price').html(product_price);
+
+		// Close the block editor
+		close_edit_ui();
+
+		// Sync to server
+	});
 
 	/**
 	 * Close edit screen

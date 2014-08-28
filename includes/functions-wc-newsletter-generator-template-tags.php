@@ -153,20 +153,19 @@ function wcng_product_block( $block_id = '', $default = 0 ){
       <!-- .product-item-->
       <table style="border: 0;">
         <tr>
-          <td>
+          <td class="product-image">
             <a href="#product-url" title="product_title" style="color: #2ba6cb; text-decoration: none;">
-              <img src="<?php echo WC_NEWSLETTER_GENERATOR_URL; ?>assets/default-product-image.png" width="160" height="220" alt="" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; float: left; clear: both; display: block; border: none;" align="left" />
+              <img src="<?php echo WC_NEWSLETTER_GENERATOR_URL; ?>assets/default-product-image.png" width="160" height="220" alt="" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; max-width: 100%; float: left; clear: both; display: block; border: none;" align="left" />
             </a>                                              
           </td>                                            
         </tr>
         <tr style="text-align: center;">
-          <td>
-            <br />
+          <td class="product-name">
             <a href="" style="">Product Name</a>
           </td>
         </tr>
         <tr style="text-align: center;">
-          <td>
+          <td class="product-price">
            product_price
           </td>
         </tr>
