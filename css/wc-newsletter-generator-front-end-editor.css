@@ -25,9 +25,9 @@
 #block-selector {
   position: fixed;
   top: 10%;
-  right: 20%;
+  right: 5%;
   bottom: 10%;
-  left: 20%;
+  left: 5%;
   padding: 20px;
   background: #fff;
   z-index: 150;
