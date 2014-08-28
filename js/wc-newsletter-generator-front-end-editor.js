@@ -16,6 +16,7 @@ jQuery(document).ready(function($){
 		// Toggle UI
 		$('#modal-background').velocity({ 'opacity' : '.5' }, { 'display' : 'block' });
 		$('#block-selector').velocity('fadeIn');
+		$('body').css({ 'overflow' : 'hidden' });
 
 		// Update edit block parts
 		$('.var-html[data-param="id"]').html(id);
@@ -133,6 +134,9 @@ jQuery(document).ready(function($){
 	function close_edit_ui(){
 		// Close UI
 		$('#modal-background, #block-selector').velocity('fadeOut');		
+
+		// Unlock the position of the window
+		$('body').css({ 'overflow' : 'auto' });
 
 		// Close edit form
 		$('.edit-block-form').hide();
