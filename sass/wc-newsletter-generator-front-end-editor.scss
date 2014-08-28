@@ -76,6 +76,10 @@
 			text-transform: uppercase;
 			font-size: 11px;
 			letter-spacing: 1px;
+
+			&[for="edit-image-image"]{
+				margin-bottom: 5px;
+			}
 		}
 
 		input[type="text"]{
@@ -152,6 +156,22 @@
 			}
 		}
 
+		#edit-image-preview{
+			width: auto;
+			max-height: 200px;
+			padding: 5px;
+			border: 1px solid #dfdfdf;
+			margin-bottom: 10px;
+		}
+
+		#edit-image-image{
+			display: none;
+		}
+
+		#edit-image-change-image{
+			@include button_control;
+		}
+
 		#loading-more-products{
 			text-align: center;
 			padding: 25px 0;
@@ -206,4 +226,13 @@
 	content: '';
 	z-index: 100;
 	display: none;
+}
+
+// WordPress Media Uploader Modification
+body{
+	.media-sidebar{
+		label.setting{
+			display: none;
+		}
+	}
 }

@@ -17,12 +17,7 @@ function wcng_current_user_can_edit_newsletter(){
  */
 function wcng_email_header(){
 	if( wcng_current_user_can_edit_newsletter() ){
-	    echo '<link rel="stylesheet" id="wc-newsletter-generator-front-end-editor"  href="'. WC_NEWSLETTER_GENERATOR_URL .'css/wc-newsletter-generator-front-end-editor.css" type="text/css" media="all" />';
-      echo '<script type="text/javascript" src="'.site_url().'/wp-includes/js/jquery/jquery.js"></script>';
-      echo '<script type="text/javascript" src="'.WC_NEWSLETTER_GENERATOR_URL.'js/jquery.velocity.js"></script>';
-	    echo '<script type="text/javascript" src="'.WC_NEWSLETTER_GENERATOR_URL.'js/wc-newsletter-generator-front-end-editor.js"></script>';
-
-      echo '<script type="text/javascript" src="'.site_url().'/wp-content/plugins/wp-live-js/js/live.js"></script>';
+    wp_head();
 	}
 
 	do_action( 'wcng_email_header' );
@@ -45,7 +40,11 @@ function wcng_email_footer(){
       <form action="<?php the_permalink(); ?>" class="edit-block-form" id="edit-image">
         <p>
           <label for="edit-image-image"><?php _e( 'Image', 'woocommerce-newsletter-generator' ); ?></label>
-          <input type="text" name="edit-image-image" id="edit-image-image" placeholder="" value="" />
+          <img src="" id="edit-image-preview">
+          <span style="display: block;">            
+            <button id="edit-image-change-image"><?php _e( 'Change Image', 'woocommerce-newsletter-generator' ); ?></button>
+          </span>
+          <input type="text" name="edit-image-image" id="edit-image-image" placeholder="" value="" disabled="disabled" />
         </p>
         <p>
           <label for="edit-image-text"><?php _e( 'Text', 'woocommerce-newsletter-generator' ); ?></label>
@@ -100,6 +99,8 @@ function wcng_email_footer(){
           </li>
     </script><!-- #template-product-item -->
   <?php
+
+  wp_footer();
   }
 }
 

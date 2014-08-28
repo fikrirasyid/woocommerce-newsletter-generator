@@ -27,6 +27,7 @@ jQuery(document).ready(function($){
 		// Editing preparation: Image
 		if( 'image' == type ){
 			// Put the data on the form
+			$('#edit-image-preview').attr( 'src', image );
 			$('#edit-image-text').val( text );
 			$('#edit-image-image').val( image );
 			$('#edit-image-href').val( href );			
@@ -44,6 +45,45 @@ jQuery(document).ready(function($){
 
 		// Display edit screen
 		$('#edit-' + type).show();
+	});
+
+	/**
+	 * Image selection mechanism using WordPress' media uploader
+	 */
+	$('body').on( 'click', '#edit-image-change-image', function(e){
+		e.preventDefault();
+
+		var file_frame;
+
+		// If the media frame already exists, reopen it.
+	    if ( file_frame ) {
+	      file_frame.open();
+	      return;
+	    }
+
+	    // Create the media frame.
+	    file_frame = wp.media.frames.file_frame = wp.media({
+	      title: 'Select Image',
+	      button: {
+	        text: 'Select Image',
+	      },
+	      multiple: false  // Set to true to allow multiple files to be selected
+	    });
+	 
+	    // When an image is selected, run a callback.
+	    file_frame.on( 'select', function() {
+	      // We set multiple to false so only get one image from the uploader
+	      attachment = file_frame.state().get('selection').first().toJSON();
+	 
+			// Do something with attachment.id and/or attachment.url here
+			console.log( attachment );
+			$('#edit-image-preview').attr( 'src', attachment.url );
+			$('#edit-image-image').val( attachment.url );
+
+	    });
+	 
+	    // Finally, open the modal
+	    file_frame.open();
 	});
 
 	/**
