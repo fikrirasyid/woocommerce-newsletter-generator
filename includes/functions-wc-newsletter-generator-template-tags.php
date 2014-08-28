@@ -30,7 +30,11 @@ function wcng_email_header(){
  */
 function wcng_email_footer(){
   if( wcng_current_user_can_edit_newsletter() ){
+    global $post;
   ?>
+    <pre>
+      <?php print_r( get_post_meta( $post->ID, '_newsletter_blocks', true ) ); ?>
+    </pre>
     <div id='modal-background'></div><!-- #modal-background -->
 
     <div id="block-selector">
@@ -253,7 +257,7 @@ function wcng_the_products(){
               <?php echo $product->get_price_html(); ?>
             </span>
             <span class="product-action">
-              <button class="select-this-product" data-product-id="<?php get_the_ID(); ?>"><?php _e( 'Select This Product', 'woocommerce-newsletter-generator' ); ?></button>
+              <button class="select-this-product" data-product-id="<?php the_ID(); ?>"><?php _e( 'Select This Product', 'woocommerce-newsletter-generator' ); ?></button>
             </span>
           </li>
       <?php

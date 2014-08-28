@@ -19,11 +19,11 @@ class WC_Newsletter_Generator_Ajax{
 			'method' 		=> 'get_products',
 			'paged'			=> 1,
 			'_n'			=> false,
-			'newsletter_id' => 0
+			'newsletter_id' => 0,
 		);
 
 		// Parse variables
-		$args = wp_parse_args( $_GET, $defaults );
+		$args = wp_parse_args( $_REQUEST, $defaults );
 		extract( $args, EXTR_SKIP );
 
 		// Available methods
@@ -112,6 +112,66 @@ class WC_Newsletter_Generator_Ajax{
 		}
 
 		return $products;
+	}
+
+	/**
+	 * Update content block
+	 * 
+	 * @param array of update value
+	 * 
+	 * @return array of update block
+	 */
+	function update( $params = array() ){
+		// Default values
+		$defaults = array(
+			'newsletter_id' => false,
+			'block_id' 		=> false,
+			'mode'			=> false,
+			'args'			=> false
+		);
+
+		// Parse args
+		$params = wp_parse_args( $params, $defaults );
+		extract( $params, EXTR_SKIP );
+
+		// Check minimum requirement parameter
+		if( !$newsletter_id || !$block_id || !$mode || !$args ){
+			return false;
+		}
+
+		// Get current value
+		$blocks = get_post_meta( $newsletter_id, '_newsletter_blocks', true );
+
+		// If blocks 'is' still empty
+		if( !$blocks ){
+			$blocks = array();
+		}
+
+		// Update blocks value
+		$allow_args = array( 'product_id', 'text', 'image', 'link' );
+
+		$args = (array)$args;
+		foreach ( $args as $arg_key => $arg ) {
+			if( in_array( $arg_key, $allow_args ) ){
+				switch ( $arg_key ) {
+					case 'product_id':
+						$blocks[$block_id][$mode][$arg_key] = intval( $arg );
+						break;
+					
+					default:
+						$blocks[$block_id][$mode][$arg_key] = sanitize_text_field( $arg );
+						break;
+				}
+			}
+		}
+
+		// Save the blocks value
+		update_post_meta( $newsletter_id, '_newsletter_blocks', $blocks );
+
+		// Get the updated postmeta
+		$new_blocks = get_post_meta( $newsletter_id, '_newsletter_blocks', true );
+
+		return $new_blocks[$block_id][$mode];
 	}
 }
 new WC_Newsletter_Generator_Ajax;

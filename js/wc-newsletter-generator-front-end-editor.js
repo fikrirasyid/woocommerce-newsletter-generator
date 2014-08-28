@@ -114,6 +114,7 @@ jQuery(document).ready(function($){
 		close_edit_ui();
 
 		// Sync to server
+		sync_update( target, 'image', { text : text, image : image, link : href } );
 	});
 
 	// Text
@@ -131,6 +132,7 @@ jQuery(document).ready(function($){
 		close_edit_ui();
 
 		// Sync to server
+		sync_update( target, 'text', { text : text } );
 	});
 
 	// Product
@@ -158,6 +160,7 @@ jQuery(document).ready(function($){
 		close_edit_ui();
 
 		// Sync to server
+		sync_update( target, 'product', { product_id : product_id } );
 	});
 
 	/**
@@ -247,5 +250,25 @@ jQuery(document).ready(function($){
 
 		// Close edit form
 		$('.edit-block-form').hide();
+	}
+
+	// Sync update to server
+	function sync_update( block_id, mode, args ){
+		$.ajax({
+			url : wcng_params.endpoint,
+			type : 'POST',
+			data : {
+				method 			: 'update',
+				_n 				: wcng_params._n_update,
+				newsletter_id 	: wcng_params.newsletter_id,
+				block_id 		: block_id,
+				mode 			: mode,
+				args 			: args
+			}
+		}).done(function(response){
+			data = $.parseJSON( response );
+
+			console.log( data );
+		});
 	}
 });

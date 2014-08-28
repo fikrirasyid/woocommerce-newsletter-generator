@@ -55,7 +55,7 @@ class WC_Newsletter_Generator_Public{
 	function dequeue_enqueue_styles_scripts(){
 		// Removing other scripts and styles on edit page
 		if( is_singular( 'newsletter' ) && wcng_current_user_can_edit_newsletter() ){
-			global $wp_styles, $wp_scripts;
+			global $wp_styles, $wp_scripts, $post;
 
 			// Dequeued styles
 			if( is_array( $wp_styles->queue ) ){
@@ -78,6 +78,15 @@ class WC_Newsletter_Generator_Public{
 			wp_enqueue_media();
 			wp_register_script( 'jquery-velocity', WC_NEWSLETTER_GENERATOR_URL . 'js/jquery.velocity.js', array( 'jquery' ), '0.11.9', false );
 			wp_enqueue_script( 'wcng-front-end-editor', WC_NEWSLETTER_GENERATOR_URL . 'js/wc-newsletter-generator-front-end-editor.js', array( 'jquery', 'jquery-velocity' ), 20140828, false );
+
+			// Attaching variables for scripts
+			$wcng_params = array(
+				'newsletter_id' 	=> $post->ID,
+				'_n_update'			=> wp_create_nonce( 'update_' . $post->ID ),
+				'_n_get_products'	=> wp_create_nonce( 'get_products_' . $post->ID ),
+				'endpoint'			=> site_url( '/wp-admin/admin-ajax.php?action=wcng_endpoint' )
+			);
+			wp_localize_script( 'wcng-front-end-editor', 'wcng_params', $wcng_params );
 		}
 	}
 
