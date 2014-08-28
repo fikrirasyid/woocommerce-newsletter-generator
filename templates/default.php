@@ -1,6 +1,8 @@
 <?php
   if( have_posts() ):
     while( have_posts() ) : the_post();
+
+    $wcng = get_post_meta( get_the_ID(), '_newsletter_blocks', true );
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

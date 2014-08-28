@@ -32,9 +32,6 @@ function wcng_email_footer(){
   if( wcng_current_user_can_edit_newsletter() ){
     global $post;
   ?>
-    <pre>
-      <?php print_r( get_post_meta( $post->ID, '_newsletter_blocks', true ) ); ?>
-    </pre>
     <div id='modal-background'></div><!-- #modal-background -->
 
     <div id="block-selector">
@@ -113,7 +110,9 @@ function wcng_email_footer(){
  * 
  * @return void
  */
-function wcng_image_block( $block_id = 'header', $width = 150, $height = 150, $text = '', $image = false, $href = false ){
+function wcng_image_block( $block_id = 'header', $width = 150, $height = 150, $text = '', $image = false, $link = false ){
+  global $wcng;
+
   if( !$image ){
     switch ( $block_id ) {
       case 'header':
@@ -126,32 +125,42 @@ function wcng_image_block( $block_id = 'header', $width = 150, $height = 150, $t
     }
   }
 
-  $text = esc_attr( $text ); 
-  $image = esc_url( $image );
+  // Defining variables
+  if( $image && isset( $wcng[$block_id]['image']['image'] ) ){
+    $image = esc_attr( $wcng[$block_id]['image']['image'] );
+  }
+
+  if( $text && isset( $wcng[$block_id]['image']['text'] ) ){
+    $text = esc_attr( $wcng[$block_id]['image']['text'] );
+  }
+
+  if( $link && isset( $wcng[$block_id]['image']['text'] ) ){
+    $link = esc_url( $wcng[$block_id]['image']['text'] );
+  }  
+
   $width = intval( $width );
   $height = intval( $height );
 
   // Print wrapper for admin
   if( wcng_current_user_can_edit_newsletter() ){
-    echo "<div class='edit-content-block' data-type='image' data-id='$block_id' data-text='$text' data-image='$image' data-href='$href'>";
+    echo "<div class='edit-content-block' data-type='image' data-id='$block_id' data-text='$text' data-image='$image' data-href='$link'>";
     echo "<button class='toggle-edit-block'>". __( 'Edit', 'woocommerce-newsletter-generator' ) ."</button>";
 
     echo "<div class='the-image'>";
   }
 
-
   // Print anchor tag
-  if( $href ){
-    $href = esc_url( $href );
+  if( $link ){
+    $link = esc_url( $link );
 
-    echo "<a href='$href' title='$text'>";
+    echo "<a href='$link' title='$text'>";
 
   }
 
   echo "<img src='$image' alt='$text' width='$width' height='$height' style='outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; max-width: 100%; float: left; clear: both; display: block; border: none;' align='left' />";
 
   // Close anchor tag
-  if( $href ){
+  if( $link ){
 
     echo "</a>";
 
@@ -210,6 +219,11 @@ function wcng_product_block( $block_id = '', $default = 0 ){
  * Text Block
  */
 function wcng_text_block( $block_id = 'footer', $default = ''){
+  global $wcng;
+
+  if( $default && isset( $wcng[$block_id]['text']['text'] ) ){
+    $default = $wcng[$block_id]['text']['text'];
+  }
 
   // Print wrapper for admin
   if( wcng_current_user_can_edit_newsletter() ){
