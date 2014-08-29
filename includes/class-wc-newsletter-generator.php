@@ -9,40 +9,15 @@ class WC_Newsletter_Generator{
 	function templates(){
 		$templates = array(
 			'default' => array(
-				'name' 		=> 'default',
-				'path' 		=> WC_NEWSLETTER_GENERATOR_DIR . 'templates/default.php',
-				'fields' 	=> array(
-					array(
-						'id' 		=> '',
-						'type' 		=> 'image',
-						'text'		=> '',
-						'link'		=> '',
-						'img' 		=> WC_NEWSLETTER_GENERATOR_URL . 'assets/default.png'
+				'name' 					=> 'default',
+				'path' 					=> WC_NEWSLETTER_GENERATOR_DIR . 'templates/default.php',
+				'product_image_sizes'   => array( 
+					array( 
+						'id' 		=> 'wcng-product-thumb', 
+						'width' 	=> 160, 
+						'height' 	=> 220, 
+						'hard_crop' => true 
 					),
-					array(
-						'type' 		=> 'woocommerce_product',
-						'default' 	=> 0
-					),
-					array(
-						'type' 		=> 'woocommerce_product',
-						'default' 	=> 0
-					),
-					array(
-						'type' 		=> 'woocommerce_product',
-						'default' 	=> 0
-					),
-					array(
-						'type' 		=> 'woocommerce_product',
-						'default' 	=> 0
-					),
-					array(
-						'type' 		=> 'woocommerce_product',
-						'default' 	=> 0
-					),
-					array(
-						'type' 		=> 'woocommerce_product',
-						'default' 	=> 0
-					)
 				)
 			)
 		);
@@ -67,5 +42,38 @@ class WC_Newsletter_Generator{
 		}
 
 		return $templates;
+	}
+
+	/**
+	 * Function define image sizes
+	 * 
+	 * 
+	 * @return array
+	 */
+	function image_sizes(){
+		$templates = $this->templates();
+
+		$image_sizes = array();
+
+		// Check if templates list is an array
+		if( is_array( $templates ) ){
+
+			// Loop the template list
+			foreach ($templates as $template ) {
+				
+				// Check if the product image size exists and it's an array
+				if( isset( $template['product_image_sizes'] ) && is_array( $template['product_image_sizes'] ) ){
+
+					// Loop the product image sizes
+					foreach ($template['product_image_sizes'] as $image_size ) {
+
+						// Push the image size
+						array_push( $image_sizes, $image_size );
+					}
+				}
+			}
+		}
+
+		return $image_sizes;
 	}
 }

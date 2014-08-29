@@ -31,12 +31,18 @@ require_once( 'includes/class-wc-newsletter-generator-ajax.php' );
  * Setup plugin
  */
 class WC_Newsletter_Generator_Setup{
+	var $wc_newsletter_generator;
+
 	function __construct(){
 		register_activation_hook( __FILE__, array( $this, 'activation' ) );
 
 		register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
 
+		$this->wc_newsletter_generator = new WC_Newsletter_Generator;
+
 		add_action( 'init', array( $this, 'register_post_type' ) );
+
+		add_action( 'after_setup_theme', array( $this, 'register_image_sizes' ) );
 	}
 
 	/**
@@ -54,7 +60,6 @@ class WC_Newsletter_Generator_Setup{
 	 * @return void
 	 */
 	function deactivation(){
-
 	}
 
 	/**
@@ -304,7 +309,36 @@ class WC_Newsletter_Generator_Setup{
 			'newsletter', // Post type name. Max of 20 characters. Uppercase and spaces not allowed.
 			$args      // Arguments for post type.
 		);
+	}
 
+	/**
+	 * Register image sizes for HTML email template
+	 * 
+	 * @return void
+	 */
+	function register_image_sizes(){
+		$image_sizes = $this->wc_newsletter_generator->image_sizes();
+
+		// Check the image sizes existance for our safety
+		if( is_array( $image_sizes ) && !empty( $image_sizes ) ){
+			
+			// Loop the product sizes
+			foreach ( $image_sizes as $image_size ) {
+				$defaults = 					array( 
+					'id' 		=> 'thumbnail', 
+					'width' 	=> 150, 
+					'height' 	=> 150, 
+					'hard_crop' => true 
+				);
+
+				// Parse against default arguments
+				$image_size = wp_parse_args( $image_size, $defaults );
+				extract( $image_size );
+
+				// Register 
+				add_image_size( $id, $width, $height, $hard_crop );
+			}
+		}
 	}
 }
 new WC_Newsletter_Generator_Setup;

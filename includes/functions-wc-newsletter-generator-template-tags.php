@@ -106,6 +106,80 @@ function wcng_email_footer(){
 }
 
 /**
+ * Get wcng body data
+ * Reducing query for getting product name
+ * 
+ * @param int post_id
+ * 
+ * @return array of well-prepared $wcng data
+ */
+function wcng_data( $post_id ){
+  $blocks = get_post_meta( $post_id, '_newsletter_blocks', true );
+
+  if( is_array( $blocks ) ){
+    // Prepare to get product ids
+    $product_ids = array();
+
+    // Loop the blocks
+    foreach ($blocks as $block_id => $block ) {
+      
+      // If the current block is product
+      if( 'product' == substr( $block_id, 0, 7 ) ){
+
+        // Push to product_ids
+        array_push( $product_ids, $block['product']['product_id'] );
+      }
+    }
+
+    // Check if there's any product ids
+    if( !empty( $product_ids ) ){
+
+      // Get posts with current id
+      $posts = get_posts( array(
+        'post_type'   => 'product',
+        'post_status' => 'publish',
+        'post__in'    => $product_ids
+      ) );
+
+      // Check if there's any data found..
+      if( !empty( $posts ) ){
+        
+        $product_data = array();
+
+        // Prepare the data, use ID as array key
+        foreach ( $posts as $post ) {
+          $wc_product = new WC_Product( $post->ID );
+
+          $product_data[$post->ID]['title'] = $post->post_title;          
+          $product_data[$post->ID]['permalink'] = get_permalink( $post->ID );
+          $product_data[$post->ID]['price'] = strip_tags( $wc_product->get_price_html() );
+        }
+
+        // We've got something
+        // Push back the value by looping the $blocks (again!)
+        foreach ( $blocks as $block_id => $block ) {
+
+          // If the current block is product and it has saved value
+          if( 'product' == substr( $block_id, 0, 7 ) && isset( $block['product']['product_id'] ) && in_array( $block['product']['product_id'], $product_ids ) ){
+            // Get current block ID
+            $product_id = $block['product']['product_id'];
+
+            // Push saved data to $blocks
+            $blocks[$block_id]['product']['title']     = $product_data[$product_id]['title'];
+            $blocks[$block_id]['product']['permalink'] = $product_data[$product_id]['permalink'];
+            $blocks[$block_id]['product']['price']     = $product_data[$product_id]['price'];
+
+          }          
+        }
+      }
+    }
+
+  }
+
+  return $blocks;
+}
+
+/**
  * Text Image Block
  * 
  * @return void
@@ -176,11 +250,56 @@ function wcng_image_block( $block_id = 'header', $width = 150, $height = 150, $t
 /**
  * Product Block
  */
-function wcng_product_block( $block_id = '', $default = 0 ){
+function wcng_product_block( $block_id = '', $product_image_size = 'wcng-product-thumb' ){
+  global $wcng;
+  
+  // Check if the product block has saved value
+  
+  // Get product ID
+  if( isset( $wcng[$block_id]['product']['product_id'] ) ){
+    $product_id = $wcng[$block_id]['product']['product_id'];
+
+    // Get thumbnail
+    $post_thumbnail_id = get_post_thumbnail_id( $product_id );
+
+    if( $post_thumbnail_id ){
+        $attachment_src = wp_get_attachment_image_src( $post_thumbnail_id, $product_image_size );
+        $image = $attachment_src[0];
+    } else {
+      $image = WC_NEWSLETTER_GENERATOR_URL . 'assets/default-product-image.png';
+    }
+
+  } else {
+    $product_id = 0;
+
+    // Get thumbnail. Why bother looking for thumbnail if product_id == 0
+    $image = WC_NEWSLETTER_GENERATOR_URL . 'assets/default-product-image.png';
+  }
+  
+  // Get permalink
+  if( isset( $wcng[$block_id]['product']['permalink'] ) ){
+    $permalink = $wcng[$block_id]['product']['permalink'];
+  } else {
+    $permalink = '#';
+  }    
+
+  // Get product name
+  if( isset( $wcng[$block_id]['product']['title'] ) ){
+    $title = $wcng[$block_id]['product']['title'];
+  } else {
+    $title = __( 'Product Name', 'woocommerce-newsletter-generator' );
+  }  
+
+  // Get product price
+  if( isset( $wcng[$block_id]['product']['price'] ) ){
+    $price = $wcng[$block_id]['product']['price'];
+  } else {
+    $price = '-';
+  }    
 
   // Print wrapper for admin
   if( wcng_current_user_can_edit_newsletter() ){
-    echo "<div class='edit-content-block' data-type='product' data-id='$block_id' data-product-id='$default'>";
+    echo "<div class='edit-content-block' data-type='product' data-id='$block_id' data-product-id='$product_id'>";
     echo "<button class='toggle-edit-block'>". __( 'Edit', 'woocommerce-newsletter-generator' ) ."</button>";
   }
 
@@ -189,19 +308,21 @@ function wcng_product_block( $block_id = '', $default = 0 ){
       <table style="border: 0;">
         <tr>
           <td class="product-image">
-            <a href="#product-url" title="product_title" style="color: #2ba6cb; text-decoration: none;">
-              <img src="<?php echo WC_NEWSLETTER_GENERATOR_URL; ?>assets/default-product-image.png" width="160" height="220" alt="" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; max-width: 100%; float: left; clear: both; display: block; border: none;" align="left" />
+            <a href="<?php echo $permalink; ?>" title="product_title" style="color: #2ba6cb; text-decoration: none;">
+              <img src="<?php echo $image; ?>" width="160" height="220" alt="" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; max-width: 100%; float: left; clear: both; display: block; border: none;" align="left" />
             </a>                                              
           </td>                                            
         </tr>
         <tr style="text-align: center;">
           <td class="product-name">
-            <?php _e( 'Product Name', 'woocommerce-newsletter-generator' ); ?>
+            <a href="<?php echo $permalink; ?>" title="product_title" style="color: #2ba6cb; text-decoration: none;">
+              <?php echo $title; ?>
+            </a>
           </td>
         </tr>
         <tr style="text-align: center;">
           <td class="product-price">
-           -
+            <?php echo $price; ?>
           </td>
         </tr>
       </table>
