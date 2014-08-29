@@ -40,12 +40,23 @@ class WC_Newsletter_Generator_Editor{
 	 * @return void
 	 */
 	function meta_box(){
+		global $post;
+
 		$templates = new WC_Newsletter_Generator;
+
+		// Set previewer visibility. auto-draft will not see the previewer until the status of the draft is changed into draft
+		// which will be changed when the template is selected
+		if( 'auto-draft' == $post->post_status ){
+			$display = 'none';
+		} else {
+			$display = 'block';
+		}
 
 		?>
 			<p>
-				<label for="<?php echo $this->prefix?>template"><?php _e( 'Select Template', 'woocommerce-newsletter-generator' ); ?></label>
-				<select name="<?php echo $this->prefix?>-template" id="<?php echo $this->prefix?>-template">
+				<label for="wcng_select_template"><?php _e( 'Select Template', 'woocommerce-newsletter-generator' ); ?></label>
+				<select name="wcng_select_template" id="wcng_select_template">
+					<option value=""><?php _e( 'Select Template', 'woocommerce-newsletter-generator' ); ?></option>
 					<?php 
 						if( is_array( $templates->templates_list() ) ){
 
@@ -60,8 +71,13 @@ class WC_Newsletter_Generator_Editor{
 				</select>
 			</p>
 
-			<div id="newsletter-preview">
-				
+			<div id="newsletter-preview" 
+				data-endpoint="<?php echo admin_url(); ?>admin-ajax.php?action=wcng_endpoint" 
+				data-post-id="<?php echo $post->ID; ?>" 
+				data-status="<?php echo $post->post_status?>"
+				data-nonce="<?php echo wp_create_nonce( "change_auto_draft_{$post->ID}" ); ?>"
+				style="display: <?php echo $display; ?>;">				
+				<span><?php _e( 'Initializing newsletter preview screen...', 'woocommerce-newsletter-generator' ); ?></span>
 			</div>
 		<?php
 
