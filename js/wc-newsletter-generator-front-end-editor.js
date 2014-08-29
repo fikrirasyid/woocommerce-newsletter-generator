@@ -42,6 +42,7 @@ jQuery(document).ready(function($){
 		}		
 
 		// Editing preparation: Product
+		// Nothing happens, just load the picker
 
 		// Display edit screen
 		$('#edit-' + type).show();
@@ -63,9 +64,9 @@ jQuery(document).ready(function($){
 
 	    // Create the media frame.
 	    file_frame = wp.media.frames.file_frame = wp.media({
-	      title: 'Select Image',
+	      title: wcng_params.label_select_image,
 	      button: {
-	        text: 'Select Image',
+	        text: wcng_params.label_select_image,
 	      },
 	      multiple: false  // Set to true to allow multiple files to be selected
 	    });
@@ -93,12 +94,12 @@ jQuery(document).ready(function($){
 		e.preventDefault();
 
 		// Get values
-		var target = $('#block-selector').attr('data-target');
-		var width = $('.edit-content-block[data-id="'+target+'"] .the-image img').attr('width');
-		var height = $('.edit-content-block[data-id="'+target+'"] .the-image img').attr('height');
-		var text = $('#edit-image-text').val();
-		var image = $('#edit-image-image').val();
-		var href = $('#edit-image-href').val();
+		var target 	= $('#block-selector').attr('data-target');
+		var width 	= $('.edit-content-block[data-id="'+target+'"] .the-image img').attr('width');
+		var height 	= $('.edit-content-block[data-id="'+target+'"] .the-image img').attr('height');
+		var text 	= $('#edit-image-text').val();
+		var image 	= $('#edit-image-image').val();
+		var href 	= $('#edit-image-href').val();
 
 		var img = '<img src="'+image+'" alt="'+text+'" width="'+width+'" height="'+height+'" />';
 
@@ -139,15 +140,15 @@ jQuery(document).ready(function($){
 		e.preventDefault();
 
 		// Get values
-		var button = $(this);
-		var product = button.parents('li');
-		var target = $('#block-selector').attr('data-target');
-		var product_id = button.attr('data-product-id');
-		var product_img = product.find('.image-wrap img').attr('src');
-		var product_name = product.find('.product-name').html();
-		var product_name_only = product.find('.product-name a').text();
-		var product_price = product.find('.product-price').html();
-		var product_permalink = product.find('.product-name a').attr('href');
+		var button 				= $(this);
+		var product 			= button.parents('li');
+		var target 				= $('#block-selector').attr('data-target');
+		var product_id 			= button.attr('data-product-id');
+		var product_img 		= product.find('.image-wrap img').attr('src');
+		var product_name 		= product.find('.product-name').html();
+		var product_name_only 	= product.find('.product-name a').text();
+		var product_price	 	= product.find('.product-price').html();
+		var product_permalink 	= product.find('.product-name a').attr('href');
 
 		// Update UI
 		$('.edit-content-block[data-id="'+target+'"] .product-image a').attr({ 'href' : product_permalink, 'title' : product_name_only });
@@ -191,7 +192,7 @@ jQuery(document).ready(function($){
 
 	 		if( data == 'all_loaded' ){
 	 			// Notify user if all products information has been loaded
-	 			alert( 'All products have been displayed' );
+	 			alert( wcng_params.label_products_have_been_displayed );
 
 	 			$('#loading-more-products').hide();
 	 		} else if( data != false ){
@@ -221,7 +222,7 @@ jQuery(document).ready(function($){
 			 	$('#loading-more-products').hide();
 	 		} else {
 	 			// Something isn't right
-	 			alert( 'Error getting error data. Please try again.');
+	 			alert( wcng_params.label_error_getting_data );
 	 		}
 	 	});
 	});

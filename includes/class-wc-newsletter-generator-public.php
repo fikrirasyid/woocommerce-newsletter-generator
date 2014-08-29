@@ -81,12 +81,15 @@ class WC_Newsletter_Generator_Public{
 
 			// Attaching variables for scripts
 			$wcng_params = array(
-				'newsletter_id' 			=> $post->ID,
-				'_n_update'					=> wp_create_nonce( 'update_' . $post->ID ),
-				'_n_get_products'			=> wp_create_nonce( 'get_products_' . $post->ID ),
-				'endpoint'					=> site_url( '/wp-admin/admin-ajax.php?action=wcng_endpoint' ),
-				'loading_message_update'	=> __( 'Saving your update on: ', 'woocommerce-newsletter-generator' ),
-				'loading_message_update_end' => __( 'Update Saved!', 'woocommerce-newsletter-generator' )
+				'newsletter_id' 					=> $post->ID,
+				'_n_update'							=> wp_create_nonce( 'update_' . $post->ID ),
+				'_n_get_products'					=> wp_create_nonce( 'get_products_' . $post->ID ),
+				'endpoint'							=> site_url( '/wp-admin/admin-ajax.php?action=wcng_endpoint' ),
+				'loading_message_update'			=> __( 'Saving your update on: ', 'woocommerce-newsletter-generator' ),
+				'loading_message_update_end' 		=> __( 'Update Saved!', 'woocommerce-newsletter-generator' ),
+				'label_select_image'				=> __( 'Select Image', 'woocommerce-newsletter-generator' ),
+				'label_products_have_been_displayed' => __( 'All products have been displayed!', 'woocommerce-newsletter-generator' ),
+				'label_error_getting_data'			=> __( 'Error getting data. Please try again.', 'woocommerce-newsletter-generator')
 			);
 			wp_localize_script( 'wcng-front-end-editor', 'wcng_params', $wcng_params );
 		}
