@@ -4,9 +4,11 @@
  */
 class WC_Newsletter_Generator_Ajax{
 	var $available_methods;
+	var $wc_newsletter_generator;
 
 	function __construct(){
-		$this->available_methods = array( 'get_products', 'update', 'change_auto_draft' );
+		$this->available_methods 		= array( 'get_products', 'update', 'change_template' );
+		$this->wc_newsletter_generator 	= new WC_Newsletter_Generator;
 
 		// register ajax endpoint
 		add_action( 'wp_ajax_wcng_endpoint', array( $this, 'endpoint' ) );
@@ -21,14 +23,14 @@ class WC_Newsletter_Generator_Ajax{
 		// Default variables
 		$defaults = array(
 			'method' 		=> 'get_products',
-			'paged'			=> 1,
-			'_n'			=> false,
 			'newsletter_id' => 0,
+			'_n'			=> false,
+			'args'			=> array()
 		);
 
 		// Parse variables
-		$args = wp_parse_args( $_REQUEST, $defaults );
-		extract( $args, EXTR_SKIP );
+		$params = wp_parse_args( $_REQUEST, $defaults );
+		extract( $params, EXTR_SKIP );
 
 		// Authentication
 		if( in_array( $method, $this->available_methods ) && 
@@ -182,34 +184,43 @@ class WC_Newsletter_Generator_Ajax{
 	 * 
 	 * @return preview URL
 	 */
-	function change_auto_draft( $params = array() ){
+	function change_template( $params = array() ){
 		// Default values
 		$defaults = array(
-			'newsletter_id' => false
+			'post_id' 	=> false,
+			'template'	=> false
 		);
 
 		// Parse args
 		$params = wp_parse_args( $params, $defaults );
 		extract( $params );
 
-		// Make sure that there's newsletter ID to be modified
-		if( !$newsletter_id ){
+		// Make sure that there's post ID and template value to be modified
+		if( !$post_id || !$template ){
 			return false;
 		}
 
+		// Make sure that the template that will be saved is registered
+		if( !in_array( $template, $this->wc_newsletter_generator->templates_list() ) ){
+			return false;
+		}		
+
 		// Get post status
-		$post = get_post( $newsletter_id );
+		$post = get_post( $post_id );
 
 		// If this is auto-draft, change it into draft
 		if( 'auto-draft' == $post->post_status ){
 			$post_updated = wp_update_post( array(
-				'ID' 			=> $newsletter_id,
+				'ID' 			=> $post_id,
 				'post_status' 	=> 'draft'
 			) );
 		}
 
+		// Update template value
+		update_post_meta( $post_id, '_wcng_template', $template );
+
 		// return preview URL
-		return site_url( "?post_type=newsletter&p={$newsletter_id}&preview=true" );
+		return site_url( "?post_type=newsletter&p={$post_id}&preview=true" );
 	}
 }
 new WC_Newsletter_Generator_Ajax;

@@ -74,8 +74,7 @@ class WC_Newsletter_Generator_Editor{
 			<div id="newsletter-preview" 
 				data-endpoint="<?php echo admin_url(); ?>admin-ajax.php?action=wcng_endpoint" 
 				data-post-id="<?php echo $post->ID; ?>" 
-				data-status="<?php echo $post->post_status?>"
-				data-nonce="<?php echo wp_create_nonce( "change_auto_draft_{$post->ID}" ); ?>"
+				data-nonce="<?php echo wp_create_nonce( "change_template_{$post->ID}" ); ?>"
 				style="display: <?php echo $display; ?>;">				
 				<span><?php _e( 'Initializing newsletter preview screen...', 'woocommerce-newsletter-generator' ); ?></span>
 			</div>
