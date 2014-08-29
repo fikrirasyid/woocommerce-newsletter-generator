@@ -22,18 +22,21 @@ jQuery(document).ready(function($){
 				type : 'POST',
 				url : endpoint,
 				data : {
-		 			_n 		: nonce,
-		 			method 	: 'change_auto_draft',
-		 			args 	: { post_id : post_id }				
+		 			_n 				: nonce,
+		 			method 			: 'change_auto_draft',
+		 			newsletter_id 	: post_id,
+		 			args 			: { post_id : post_id }				
 				}
 			}).done(function( response ){
 				var data = $.parseJSON( response );
+
+				if( data != false ){
+					$('#newsletter-preview').html('<iframe src="'+ data +'" width="100%" height="550"></iframe>');
+				}
 
 				console.log( data );
 			});
 
 		}
 	});
-
-	// $('#newsletter-preview').html('<iframe src="'+ preview_url +'" width="100%" height="550"></iframe>');
 });

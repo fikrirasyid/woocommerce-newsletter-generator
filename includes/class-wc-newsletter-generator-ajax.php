@@ -3,7 +3,11 @@
  * Handling AJAX processing
  */
 class WC_Newsletter_Generator_Ajax{
+	var $available_methods;
+
 	function __construct(){
+		$this->available_methods = array( 'get_products', 'update', 'change_auto_draft' );
+
 		// register ajax endpoint
 		add_action( 'wp_ajax_wcng_endpoint', array( $this, 'endpoint' ) );
 	}
@@ -26,11 +30,8 @@ class WC_Newsletter_Generator_Ajax{
 		$args = wp_parse_args( $_REQUEST, $defaults );
 		extract( $args, EXTR_SKIP );
 
-		// Available methods
-		$available_methods = array( 'get_products', 'update' );
-
 		// Authentication
-		if( in_array( $method, $available_methods ) && 
+		if( in_array( $method, $this->available_methods ) && 
 			wcng_current_user_can_edit_newsletter() && 
 			wp_verify_nonce( $_n, "{$method}_{$newsletter_id}" ) )
 		{
@@ -172,6 +173,43 @@ class WC_Newsletter_Generator_Ajax{
 		$new_blocks = get_post_meta( $newsletter_id, '_newsletter_blocks', true );
 
 		return $new_blocks[$block_id][$mode];
+	}
+
+	/**
+	 * Change the status of the post based on the ID given
+	 * 
+	 * @param array containing post ID
+	 * 
+	 * @return preview URL
+	 */
+	function change_auto_draft( $params = array() ){
+		// Default values
+		$defaults = array(
+			'newsletter_id' => false
+		);
+
+		// Parse args
+		$params = wp_parse_args( $params, $defaults );
+		extract( $params );
+
+		// Make sure that there's newsletter ID to be modified
+		if( !$newsletter_id ){
+			return false;
+		}
+
+		// Get post status
+		$post = get_post( $newsletter_id );
+
+		// If this is auto-draft, change it into draft
+		if( 'auto-draft' == $post->post_status ){
+			$post_updated = wp_update_post( array(
+				'ID' 			=> $newsletter_id,
+				'post_status' 	=> 'draft'
+			) );
+		}
+
+		// return preview URL
+		return site_url( "?post_type=newsletter&p={$newsletter_id}&preview=true" );
 	}
 }
 new WC_Newsletter_Generator_Ajax;
