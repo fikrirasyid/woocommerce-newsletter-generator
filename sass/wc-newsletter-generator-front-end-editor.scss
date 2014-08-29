@@ -214,6 +214,22 @@
 	@include button_control;
 }
 
+// Loading Indicator
+#loading-indicator{
+	position: fixed;
+	bottom: 5%;
+	left: 10%;
+	right: 10%;
+	background: rgba( 0, 0, 0, 0.8 );
+	padding: 15px;
+	border-radius: 5px;
+	color: white;
+	text-align: center;
+	box-shadow: 0 1px 10px #777;
+	font-size: 15px;
+	display: none;
+}
+
 // Modal Background
 #modal-background{
 	position: fixed;

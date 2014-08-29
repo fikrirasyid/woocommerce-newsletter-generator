@@ -76,7 +76,6 @@ jQuery(document).ready(function($){
 	      attachment = file_frame.state().get('selection').first().toJSON();
 	 
 			// Do something with attachment.id and/or attachment.url here
-			console.log( attachment );
 			$('#edit-image-preview').attr( 'src', attachment.url );
 			$('#edit-image-image').val( attachment.url );
 
@@ -254,6 +253,10 @@ jQuery(document).ready(function($){
 
 	// Sync update to server
 	function sync_update( block_id, mode, args ){
+		// Start loading state
+		loading_start( wcng_params.loading_message_update + block_id );
+
+		// Sending data..
 		$.ajax({
 			url : wcng_params.endpoint,
 			type : 'POST',
@@ -268,7 +271,25 @@ jQuery(document).ready(function($){
 		}).done(function(response){
 			data = $.parseJSON( response );
 
-			console.log( data );
+			// End loading state
+			loading_end( wcng_params.loading_message_update_end );
+		});
+	}
+
+	// Start loading
+	function loading_start( message ){
+		$('#loading-indicator p').text( message );
+		$('#loading-indicator').velocity( 'fadeIn' );
+	}
+
+	// End loading
+	function loading_end( message ){
+		$('#loading-indicator p').text( message );
+		$('#loading-indicator').velocity( 'fadeOut', {
+			delay: 1000,
+			complete: function(){
+				$('#loading-indicator p').text( '' );
+			}
 		});
 	}
 });

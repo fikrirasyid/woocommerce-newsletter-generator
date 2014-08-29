@@ -80,9 +80,12 @@ function wcng_email_footer(){
         </p>
 
         <input type="submit" value="<?php _e( 'Update', 'woocommerce-newsletter-generator' ); ?>">
-      </form><!-- #edit-text -->
-      
+      </form><!-- #edit-text -->      
     </div><!-- #block-selector -->
+
+    <div id="loading-indicator">
+      <p></p>
+    </div>
 
     <script id="template-product-item" type="text/template">
           <li>
