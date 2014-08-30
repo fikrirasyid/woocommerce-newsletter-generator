@@ -51,6 +51,9 @@ class WC_Newsletter_Generator_Setup{
 	 * @return void
 	 */
 	function activation(){
+		// Registering post type here so it can be flushed right away
+		$this->register_post_type();
+
 		flush_rewrite_rules();		
 	}
 
