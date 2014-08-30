@@ -46,80 +46,80 @@ function wcng_email_header(){
  * @return void
  */
 function wcng_email_footer(){
-  if( wcng_current_user_can_edit_newsletter() ){
+  if( wcng_current_user_can_edit_newsletter() && wcng_is_previewing() ){
     global $post;
-  ?>
-    <div id='modal-background'></div><!-- #modal-background -->
+    ?>
+      <div id='modal-background'></div><!-- #modal-background -->
 
-    <div id="block-selector">
-      <h2 id="selector-title"><?php _e( 'Edit Content: ', 'woocommerce-newsletter-generator' ); ?><span class="var-html" data-param="id"></span></h2>
-      <button id="close-selector"><?php _e( 'Close', 'woocommerce-newsletter-generator' ); ?></button>
-      
-      <form action="<?php the_permalink(); ?>" class="edit-block-form" id="edit-image">
-        <p>
-          <label for="edit-image-image"><?php _e( 'Image', 'woocommerce-newsletter-generator' ); ?></label>
-          <img src="" id="edit-image-preview">
-          <span style="display: block;">            
-            <button id="edit-image-change-image"><?php _e( 'Change Image', 'woocommerce-newsletter-generator' ); ?></button>
-          </span>
-          <input type="text" name="edit-image-image" id="edit-image-image" placeholder="" value="" disabled="disabled" />
-        </p>
-        <p>
-          <label for="edit-image-text"><?php _e( 'Text', 'woocommerce-newsletter-generator' ); ?></label>
-          <input type="text" name="edit-image-text" id="edit-image-text" placeholder="<?php _e( 'Type the text/description of your image here...', 'woocommerce-newsletter-generator' ); ?>" value="" />
-        </p>
-        <p>
-          <label for="edit-image-href"><?php _e( 'Link', 'woocommerce-newsletter-generator' ); ?></label>
-          <input type="text" name="edit-image-href" id="edit-image-href" placeholder="<?php _e( 'http://', 'woocommerce-newsletter-generator' ); ?>" value="" />
-        </p>
-        <input type="submit" value="<?php _e( 'Update', 'woocommerce-newsletter-generator' ); ?>">
-      </form><!-- #edit-image -->
-
-      <form action="<?php the_permalink(); ?>" class="edit-block-form" id="edit-product">
-        <p>
-          <label for=""><?php _e( 'Select Product', 'woocommerce-newsletter-generator' ); ?></label>
-        </p>
+      <div id="block-selector">
+        <h2 id="selector-title"><?php _e( 'Edit Content: ', 'woocommerce-newsletter-generator' ); ?><span class="var-html" data-param="id"></span></h2>
+        <button id="close-selector"><?php _e( 'Close', 'woocommerce-newsletter-generator' ); ?></button>
         
-        <ul id="select-product-list">
-          <?php wcng_the_products(); ?>
-        </ul>
+        <form action="<?php the_permalink(); ?>" class="edit-block-form" id="edit-image">
+          <p>
+            <label for="edit-image-image"><?php _e( 'Image', 'woocommerce-newsletter-generator' ); ?></label>
+            <img src="" id="edit-image-preview">
+            <span style="display: block;">            
+              <button id="edit-image-change-image"><?php _e( 'Change Image', 'woocommerce-newsletter-generator' ); ?></button>
+            </span>
+            <input type="text" name="edit-image-image" id="edit-image-image" placeholder="" value="" disabled="disabled" />
+          </p>
+          <p>
+            <label for="edit-image-text"><?php _e( 'Text', 'woocommerce-newsletter-generator' ); ?></label>
+            <input type="text" name="edit-image-text" id="edit-image-text" placeholder="<?php _e( 'Type the text/description of your image here...', 'woocommerce-newsletter-generator' ); ?>" value="" />
+          </p>
+          <p>
+            <label for="edit-image-href"><?php _e( 'Link', 'woocommerce-newsletter-generator' ); ?></label>
+            <input type="text" name="edit-image-href" id="edit-image-href" placeholder="<?php _e( 'http://', 'woocommerce-newsletter-generator' ); ?>" value="" />
+          </p>
+          <input type="submit" value="<?php _e( 'Update', 'woocommerce-newsletter-generator' ); ?>">
+        </form><!-- #edit-image -->
+
+        <form action="<?php the_permalink(); ?>" class="edit-block-form" id="edit-product">
+          <p>
+            <label for=""><?php _e( 'Select Product', 'woocommerce-newsletter-generator' ); ?></label>
+          </p>
+          
+          <ul id="select-product-list">
+            <?php wcng_the_products(); ?>
+          </ul>
+          
+          <div id="loading-more-products">
+            <img src="<?php echo site_url('/wp-includes/images/wpspin-2x.gif'); ?>" alt="<?php _e( 'Loading More Products...', 'woocommerce-newsletter-generator' ); ?>"> <span class="label"><?php _e( 'Loading More Products...', 'woocommerce-newsletter-generator' ); ?></span>
+          </div>
+          <button id="load-more-products" data-paged="2"><?php _e( 'Load More Products', 'woocommerce-newsletter-generator' ); ?></button>
+        </form><!-- #edit-product -->
         
-        <div id="loading-more-products">
-          <img src="<?php echo site_url('/wp-includes/images/wpspin-2x.gif'); ?>" alt="<?php _e( 'Loading More Products...', 'woocommerce-newsletter-generator' ); ?>"> <span class="label"><?php _e( 'Loading More Products...', 'woocommerce-newsletter-generator' ); ?></span>
-        </div>
-        <button id="load-more-products" data-paged="2"><?php _e( 'Load More Products', 'woocommerce-newsletter-generator' ); ?></button>
-      </form><!-- #edit-product -->
-      
-      <form action="<?php the_permalink(); ?>" class="edit-block-form" id="edit-text">
-        <p>
-          <label for="edit-text-text"><?php _e( 'Edit Text', 'woocommerce-newsletter-generator' ); ?></label>
-          <textarea name="edit-text-text" id="edit-text-text"></textarea>
-        </p>
+        <form action="<?php the_permalink(); ?>" class="edit-block-form" id="edit-text">
+          <p>
+            <label for="edit-text-text"><?php _e( 'Edit Text', 'woocommerce-newsletter-generator' ); ?></label>
+            <textarea name="edit-text-text" id="edit-text-text"></textarea>
+          </p>
 
-        <input type="submit" value="<?php _e( 'Update', 'woocommerce-newsletter-generator' ); ?>">
-      </form><!-- #edit-text -->      
-    </div><!-- #block-selector -->
+          <input type="submit" value="<?php _e( 'Update', 'woocommerce-newsletter-generator' ); ?>">
+        </form><!-- #edit-text -->      
+      </div><!-- #block-selector -->
 
-    <div id="loading-indicator">
-      <p></p>
-    </div>
+      <div id="loading-indicator">
+        <p></p>
+      </div>
 
-    <script id="template-product-item" type="text/template">
-          <li>
-            <span class="image-wrap">
-            </span>
+      <script id="template-product-item" type="text/template">
+            <li>
+              <span class="image-wrap">
+              </span>
 
-            <span class="product-name">
-              <a href="" title=""></a>
-            </span>
-            <span class="product-price">
-            </span>
-            <span class="product-action">
-              <button class="select-this-product" data-product-id=""><?php _e( 'Select This Product', 'woocommerce-newsletter-generator' ); ?></button>
-            </span>
-          </li>
-    </script><!-- #template-product-item -->
-  <?php
+              <span class="product-name">
+                <a href="" title=""></a>
+              </span>
+              <span class="product-price">
+              </span>
+              <span class="product-action">
+                <button class="select-this-product" data-product-id=""><?php _e( 'Select This Product', 'woocommerce-newsletter-generator' ); ?></button>
+              </span>
+            </li>
+      </script><!-- #template-product-item -->
+    <?php
 
   wp_footer();
   }
