@@ -16,7 +16,11 @@ function wcng_current_user_can_edit_newsletter(){
  * @return bool
  */
 function wcng_is_previewing(){
-  if( isset( $_GET['preview'] ) && $_GET['preview'] == 'true' ){
+  if(
+    isset( $_GET['preview'] ) && $_GET['preview'] == 'true' &&
+    isset( $_GET['p'] ) &&
+    isset( $_GET['post_type'] ) && $_GET['post_type'] == 'newsletter'
+  ){
     return true;
   } else {
     return false;

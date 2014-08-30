@@ -80,6 +80,7 @@ class WC_Newsletter_Generator_Editor{
 			</p>
 
 			<div id="newsletter-preview" 
+				data-preview-url="<?php echo site_url( "?post_type=newsletter&p={$post->ID}&preview=true" ); ?>"
 				data-endpoint="<?php echo admin_url(); ?>admin-ajax.php?action=wcng_endpoint" 
 				data-post-id="<?php echo $post->ID; ?>" 
 				data-nonce="<?php echo wp_create_nonce( "change_template_{$post->ID}" ); ?>"

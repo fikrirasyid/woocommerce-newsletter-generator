@@ -1,6 +1,6 @@
 jQuery(document).ready(function($){
-	var preview_url 		= $('.preview.button').attr( 'href' );
 	var newsletter_preview 	= $('#newsletter-preview');
+	var preview_url 		= newsletter_preview.attr( 'data-preview-url' );
 	var endpoint 			= newsletter_preview.attr( 'data-endpoint' );
 	var post_id 			= newsletter_preview.attr( 'data-post-id' );
 	var nonce 				= newsletter_preview.attr( 'data-nonce' );
