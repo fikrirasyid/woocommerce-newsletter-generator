@@ -119,66 +119,6 @@ function wcng_email_footer(){
 function wcng_data( $post_id ){
   $blocks = get_post_meta( $post_id, '_newsletter_blocks', true );
 
-  if( is_array( $blocks ) ){
-    // Prepare to get product ids
-    $product_ids = array();
-
-    // Loop the blocks
-    foreach ($blocks as $block_id => $block ) {
-      
-      // If the current block is product
-      if( 'product' == substr( $block_id, 0, 7 ) ){
-
-        // Push to product_ids
-        array_push( $product_ids, $block['product']['product_id'] );
-      }
-    }
-
-    // Check if there's any product ids
-    if( !empty( $product_ids ) ){
-
-      // Get posts with current id
-      $posts = get_posts( array(
-        'post_type'   => 'product',
-        'post_status' => 'publish',
-        'post__in'    => $product_ids
-      ) );
-
-      // Check if there's any data found..
-      if( !empty( $posts ) ){
-        
-        $product_data = array();
-
-        // Prepare the data, use ID as array key
-        foreach ( $posts as $post ) {
-          $wc_product = new WC_Product( $post->ID );
-
-          $product_data[$post->ID]['title'] = $post->post_title;          
-          $product_data[$post->ID]['permalink'] = get_permalink( $post->ID );
-          $product_data[$post->ID]['price'] = strip_tags( $wc_product->get_price_html() );
-        }
-
-        // We've got something
-        // Push back the value by looping the $blocks (again!)
-        foreach ( $blocks as $block_id => $block ) {
-
-          // If the current block is product and it has saved value
-          if( 'product' == substr( $block_id, 0, 7 ) && isset( $block['product']['product_id'] ) && in_array( $block['product']['product_id'], $product_ids ) ){
-            // Get current block ID
-            $product_id = $block['product']['product_id'];
-
-            // Push saved data to $blocks
-            $blocks[$block_id]['product']['title']     = $product_data[$product_id]['title'];
-            $blocks[$block_id]['product']['permalink'] = $product_data[$product_id]['permalink'];
-            $blocks[$block_id]['product']['price']     = $product_data[$product_id]['price'];
-
-          }          
-        }
-      }
-    }
-
-  }
-
   return $blocks;
 }
 
@@ -302,7 +242,7 @@ function wcng_product_block( $block_id = '', $product_image_size = 'wcng-product
 
   // Print wrapper for admin
   if( wcng_current_user_can_edit_newsletter() ){
-    echo "<div class='edit-content-block' data-type='product' data-id='$block_id' data-product-id='$product_id'>";
+    echo "<div class='edit-content-block' data-type='product' data-id='$block_id' data-product-id='$product_id' data-product-image-size='$product_image_size'>";
     echo "<button class='toggle-edit-block'>". __( 'Edit', 'woocommerce-newsletter-generator' ) ."</button>";
   }
 

@@ -163,6 +163,7 @@ jQuery(document).ready(function($){
 		var product_name_only 	= product.find('.product-name a').text();
 		var product_price	 	= product.find('.product-price').html();
 		var product_permalink 	= product.find('.product-name a').attr('href');
+		var product_image_size	= $('.edit-content-block[data-id="'+target+'"]').attr('data-product-image-size');
 
 		// Update UI
 		$('.edit-content-block[data-id="'+target+'"] .product-image a').attr({ 'href' : product_permalink, 'title' : product_name_only });
@@ -178,7 +179,8 @@ jQuery(document).ready(function($){
 			target, 
 			'product', 
 			{ 
-				product_id : product_id
+				product_id 			: product_id,
+				product_image_size 	: product_image_size
 			} 
 		);
 	});
@@ -275,6 +277,10 @@ jQuery(document).ready(function($){
 
 	// Sync update to server
 	function sync_update( block_id, mode, properties ){
+
+		// Blurring synced section
+		$('.edit-content-block[data-id="'+block_id+'"]').css( 'opacity', '.3' ); 
+		
 		// Start loading state
 		loading_start( wcng_params.loading_message_update + block_id );
 
@@ -295,6 +301,14 @@ jQuery(document).ready(function($){
 			}
 		}).done(function(response){
 			data = $.parseJSON( response );
+
+			// Update product's image with the one sent from server to preview correct size of image
+			if( 'product' == mode ){
+				$('.edit-content-block[data-id="'+block_id+'"] .product-image img').attr( 'src', data.image );
+			}
+
+			// End blurring synced section
+			$('.edit-content-block[data-id="'+block_id+'"]').css( 'opacity', 1 );
 
 			// End loading state
 			loading_end( wcng_params.loading_message_update_end );

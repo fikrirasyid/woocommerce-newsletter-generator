@@ -158,7 +158,32 @@ class WC_Newsletter_Generator_Ajax{
 			if( in_array( $arg_key, $allow_args ) ){
 				switch ( $arg_key ) {
 					case 'product_id':
-						$blocks[$block_id][$mode][$arg_key] = intval( $arg );
+						$product_id = intval( $arg );
+						$product_image_size = $properties['product_image_size'];
+
+						if( $product_id ){
+							$blocks[$block_id][$mode][$arg_key] = $product_id;
+
+							// Populate and store the product data							
+							$blocks[$block_id][$mode]['title'] 		= get_the_title( $product_id );
+							$blocks[$block_id][$mode]['permalink'] 	= get_permalink( $product_id );
+
+							// Get the price
+							$wc_product = new WC_Product( $product_id );
+							$blocks[$block_id][$mode]['price'] 		= strip_tags( $wc_product->get_price_html() );
+
+							// Get the thumbnail, if there's any
+						    $post_thumbnail_id = get_post_thumbnail_id( $product_id );
+
+						    if( $post_thumbnail_id ){
+						        $attachment_src = wp_get_attachment_image_src( $post_thumbnail_id, $product_image_size );
+						        $image = $attachment_src[0];
+						    } else {
+								$image = WC_NEWSLETTER_GENERATOR_URL . 'assets/default-product-image.png';
+						    }		
+							$blocks[$block_id][$mode]['image'] 		= $image;
+						    					
+						}
 						break;
 					
 					default:
