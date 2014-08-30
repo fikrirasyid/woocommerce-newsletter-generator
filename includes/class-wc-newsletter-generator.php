@@ -76,4 +76,43 @@ class WC_Newsletter_Generator{
 
 		return $image_sizes;
 	}
+
+	/**
+	 * Get newsletter template based on ID given
+	 * 
+	 * @param int post ID
+	 * 
+	 * @return string of template name
+	 */
+	function get_template( $post_id ){
+		$template = get_post_meta( $post_id, '_wcng_template', true );
+
+		return $template;
+	}
+
+	/**
+	 * Get template path based on post ID given
+	 * 
+	 * @param post ID
+	 * 
+	 * @return string of path to template
+	 */
+	function get_template_path( $post_id ){
+		$template = $this->get_template( $post_id );
+
+		// Check if given ID has a template set
+		if( $template ){
+
+			$templates = $this->templates();
+
+			// Check if given template has a template path
+			if( isset( $templates[$template]['path'] ) ){
+				return $templates[$template]['path'];
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
 }

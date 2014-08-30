@@ -3,7 +3,11 @@
  * Handling public facing mechanism
  */
 class WC_Newsletter_Generator_Public{
+	var $wc_newsletter_generator;
+
 	function __construct(){
+		$this->wc_newsletter_generator = new WC_Newsletter_Generator;
+
 		add_filter( 'template_include', array( $this, 'route_template' ) );
 
 		add_action( 'wp', array( $this, 'unhook_head_footer') );
@@ -101,10 +105,18 @@ class WC_Newsletter_Generator_Public{
 	 * @return string of path
 	 */
 	function route_template( $single_template ){
-		global $wp_query;
+		global $wp_query, $post;
 
 		if( is_singular( 'newsletter' ) ){
-			return WC_NEWSLETTER_GENERATOR_DIR . '/templates/default.php';
+			// Get template path
+			$template_path = $this->wc_newsletter_generator->get_template_path( $post->ID );
+
+			if( $template_path ){
+				return $template_path;
+			} else {
+				// If there's no template assigned, warn user to set one first
+				wp_die( __( 'Please set a template for this newsletter first.', 'woocommerce-newsletter-generator' ) );
+			}
 		} else {
 			return $single_template;
 		}
