@@ -19,7 +19,19 @@ class WC_Newsletter_Generator{
 						'hard_crop' => true 
 					),
 				)
-			)
+			),
+			'twelve-products' => array(
+				'name' 					=> 'twelve-products',
+				'path' 					=> WC_NEWSLETTER_GENERATOR_DIR . 'templates/twelve-products.php',
+				'product_image_sizes'   => array( 
+					array( 
+						'id' 		=> 'wcng-product-thumb', 
+						'width' 	=> 160, 
+						'height' 	=> 220, 
+						'hard_crop' => true 
+					),
+				)
+			),
 		);
 
 		return apply_filters( 'wc_newsletter_generator_templates', $templates );		
