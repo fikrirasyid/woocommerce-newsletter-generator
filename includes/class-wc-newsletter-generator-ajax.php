@@ -23,7 +23,7 @@ class WC_Newsletter_Generator_Ajax{
 		// Default variables
 		$defaults = array(
 			'method' 		=> 'get_products',
-			'post_id' => 0,
+			'post_id' 		=> 0,
 			'_n'			=> false,
 			'args'			=> array()
 		);

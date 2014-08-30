@@ -171,8 +171,6 @@ jQuery(document).ready(function($){
 
 	 	var button = $(this);
 	 	var paged = button.attr( 'data-paged' );
-	 	var nonce = button.attr( 'data-nonce' );
-	 	var endpoint = $('#edit-product').attr('action');
 
 	 	// Enter loading state
 	 	$('#load-more-products').hide();
@@ -181,11 +179,14 @@ jQuery(document).ready(function($){
 	 	// Get more products
 	 	$.ajax({
 	 		type : 'GET',
-	 		url : endpoint,
+	 		url : wcng_params.endpoint,
 	 		data : {
-	 			_n : nonce,
-	 			paged : paged,
-	 			method : 'get_products'
+	 			method 	: 'get_products',
+	 			post_id : wcng_params.post_id,
+	 			_n 		: wcng_params._n_get_products,
+	 			args 	: {
+		 			paged : paged,
+	 			}
 	 		}
 	 	}).done(function(response){
 	 		var data = $.parseJSON( response );

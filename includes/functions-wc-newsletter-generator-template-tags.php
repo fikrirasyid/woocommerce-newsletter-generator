@@ -58,7 +58,7 @@ function wcng_email_footer(){
         <input type="submit" value="<?php _e( 'Update', 'woocommerce-newsletter-generator' ); ?>">
       </form><!-- #edit-image -->
 
-      <form action="<?php echo site_url('/wp-admin/admin-ajax.php?action=wcng_endpoint&post_id=' . get_the_ID() ); ?>" class="edit-block-form" id="edit-product">
+      <form action="<?php the_permalink(); ?>" class="edit-block-form" id="edit-product">
         <p>
           <label for=""><?php _e( 'Select Product', 'woocommerce-newsletter-generator' ); ?></label>
         </p>
@@ -70,7 +70,7 @@ function wcng_email_footer(){
         <div id="loading-more-products">
           <img src="<?php echo site_url('/wp-includes/images/wpspin-2x.gif'); ?>" alt="<?php _e( 'Loading More Products...', 'woocommerce-newsletter-generator' ); ?>"> <span class="label"><?php _e( 'Loading More Products...', 'woocommerce-newsletter-generator' ); ?></span>
         </div>
-        <button id="load-more-products" data-paged="2" data-nonce="<?php echo wp_create_nonce( 'get_products_' . get_the_ID() ); ?>"><?php _e( 'Load More Products', 'woocommerce-newsletter-generator' ); ?></button>
+        <button id="load-more-products" data-paged="2"><?php _e( 'Load More Products', 'woocommerce-newsletter-generator' ); ?></button>
       </form><!-- #edit-product -->
       
       <form action="<?php the_permalink(); ?>" class="edit-block-form" id="edit-text">
