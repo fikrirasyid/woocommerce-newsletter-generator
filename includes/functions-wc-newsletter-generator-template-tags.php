@@ -11,6 +11,19 @@ function wcng_current_user_can_edit_newsletter(){
 }
 
 /**
+ * Detect if current view is for previewing purpose
+ * 
+ * @return bool
+ */
+function wcng_is_previewing(){
+  if( isset( $_GET['preview'] ) && $_GET['preview'] == 'true' ){
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/**
  * Email header for hooking scripts and stylesheet for admin
  * 
  * @return void
@@ -150,7 +163,7 @@ function wcng_image_block( $block_id = 'header', $width = 150, $height = 150, $t
   $height = intval( $height );
 
   // Print wrapper for admin
-  if( wcng_current_user_can_edit_newsletter() ){
+  if( wcng_is_previewing() && wcng_current_user_can_edit_newsletter() ){
     echo "<div class='edit-content-block' data-type='image' data-id='$block_id' data-text='$text' data-image='$image' data-href='$link'>";
     echo "<button class='toggle-edit-block'>". __( 'Edit', 'woocommerce-newsletter-generator' ) ."</button>";
 
@@ -175,7 +188,7 @@ function wcng_image_block( $block_id = 'header', $width = 150, $height = 150, $t
   }
 
   // Close wrapper for admin
-  if( wcng_current_user_can_edit_newsletter() ){
+  if( wcng_is_previewing() && wcng_current_user_can_edit_newsletter() ){
     echo "</div>";
     echo "</div>";
   }
@@ -195,7 +208,7 @@ function wcng_product_block( $block_id = '', $product_image_size = 'wcng-product
   $image      = wcng_get_value( $block_id, 'product', 'image', WC_NEWSLETTER_GENERATOR_URL . 'assets/default-product-image.png' );
 
   // Print wrapper for admin
-  if( wcng_current_user_can_edit_newsletter() ){
+  if( wcng_is_previewing() && wcng_current_user_can_edit_newsletter() ){
     echo "<div class='edit-content-block' data-type='product' data-id='$block_id' data-product-id='$product_id' data-product-image-size='$product_image_size'>";
     echo "<button class='toggle-edit-block'>". __( 'Edit', 'woocommerce-newsletter-generator' ) ."</button>";
   }
@@ -228,7 +241,7 @@ function wcng_product_block( $block_id = '', $product_image_size = 'wcng-product
   <?php  
 
     // Close wrapper for admin
-    if( wcng_current_user_can_edit_newsletter() ){
+    if( wcng_is_previewing() && wcng_current_user_can_edit_newsletter() ){
       echo "</div>";
     }
 }
@@ -242,7 +255,7 @@ function wcng_text_block( $block_id = 'footer', $default = ''){
   $text = wcng_get_value( $block_id, 'text', 'text', $default );
 
   // Print wrapper for admin
-  if( wcng_current_user_can_edit_newsletter() ){
+  if( wcng_is_previewing() && wcng_current_user_can_edit_newsletter() ){
     echo "<div class='edit-content-block' data-type='text' data-id='$block_id'>";
     echo "<button class='toggle-edit-block'>". __( 'Edit', 'woocommerce-newsletter-generator' ) ."</button>";
     echo '<div class="the-text">';
@@ -251,7 +264,7 @@ function wcng_text_block( $block_id = 'footer', $default = ''){
   echo esc_textarea( $text );
 
   // Close wrapper for admin
-  if( wcng_current_user_can_edit_newsletter() ){
+  if( wcng_is_previewing() && wcng_current_user_can_edit_newsletter() ){
     echo "</div>";
     echo "</div>";
   }  

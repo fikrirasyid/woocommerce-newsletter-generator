@@ -24,12 +24,21 @@ class WC_Newsletter_Generator_Public{
 		if( is_singular( 'newsletter' ) && wcng_current_user_can_edit_newsletter() ){
 			global $wp_filter;
 
+			// Allowable actions
+			if( wcng_is_previewing() ){
+				$allowable_wp_head_actions 		= array( 'wp_enqueue_scripts', 'wp_print_styles', 'wp_print_head_scripts' );
+				$allowable_wp_footer_actions 	= array( 'wp_print_footer_scripts', 'wc_print_js', 'wp_print_media_templates' );
+			} else {
+				$allowable_wp_head_actions 		= array();
+				$allowable_wp_footer_actions 	= array();
+			}
+
 			// Unhook actions from wp_head
 			foreach ( $wp_filter['wp_head'] as $priority => $wp_head_hooks ) {
 				if( is_array( $wp_head_hooks ) ){
 					foreach ( $wp_head_hooks as $wp_head_hook ) {
 
-						if( !is_array( $wp_head_hook['function'] ) && !in_array( $wp_head_hook['function'], array( 'wp_enqueue_scripts', 'wp_print_styles', 'wp_print_head_scripts' ) ) ){
+						if( !is_array( $wp_head_hook['function'] ) && !in_array( $wp_head_hook['function'], $allowable_wp_head_actions ) ){
 							remove_action( 'wp_head', $wp_head_hook['function'], $priority );							
 						}
 					}
@@ -41,7 +50,7 @@ class WC_Newsletter_Generator_Public{
 				if( is_array( $wp_footer_hooks ) ){
 					foreach ( $wp_footer_hooks as $wp_footer_hook ) {
 
-						if( !is_array( $wp_footer_hook['function'] ) && !in_array( $wp_footer_hook['function'], array( 'wp_print_footer_scripts', 'wc_print_js', 'wp_print_media_templates' ) ) ){
+						if( !is_array( $wp_footer_hook['function'] ) && !in_array( $wp_footer_hook['function'], $allowable_wp_footer_actions ) ){
 							remove_action( 'wp_footer', $wp_footer_hook['function'], $priority );
 						}
 
@@ -58,7 +67,7 @@ class WC_Newsletter_Generator_Public{
 	 */
 	function dequeue_enqueue_styles_scripts(){
 		// Removing other scripts and styles on edit page
-		if( is_singular( 'newsletter' ) && wcng_current_user_can_edit_newsletter() ){
+		if( is_singular( 'newsletter' ) && wcng_current_user_can_edit_newsletter() && wcng_is_previewing() ){
 			global $wp_styles, $wp_scripts, $post;
 
 			// Dequeued styles
