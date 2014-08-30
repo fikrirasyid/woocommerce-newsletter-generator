@@ -201,22 +201,8 @@ function wcng_product_block( $block_id = '', $product_image_size = 'wcng-product
   // Get product ID
   if( isset( $wcng[$block_id]['product']['product_id'] ) ){
     $product_id = $wcng[$block_id]['product']['product_id'];
-
-    // Get thumbnail
-    $post_thumbnail_id = get_post_thumbnail_id( $product_id );
-
-    if( $post_thumbnail_id ){
-        $attachment_src = wp_get_attachment_image_src( $post_thumbnail_id, $product_image_size );
-        $image = $attachment_src[0];
-    } else {
-      $image = WC_NEWSLETTER_GENERATOR_URL . 'assets/default-product-image.png';
-    }
-
   } else {
     $product_id = 0;
-
-    // Get thumbnail. Why bother looking for thumbnail if product_id == 0
-    $image = WC_NEWSLETTER_GENERATOR_URL . 'assets/default-product-image.png';
   }
   
   // Get permalink
@@ -238,6 +224,13 @@ function wcng_product_block( $block_id = '', $product_image_size = 'wcng-product
     $price = $wcng[$block_id]['product']['price'];
   } else {
     $price = '-';
+  }    
+
+  // Get product image
+  if( isset( $wcng[$block_id]['product']['image'] ) ){
+    $image = $wcng[$block_id]['product']['image'];
+  } else {
+    $image = WC_NEWSLETTER_GENERATOR_URL . 'assets/default-product-image.png';
   }    
 
   // Print wrapper for admin
