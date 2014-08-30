@@ -177,11 +177,17 @@ class WC_Newsletter_Generator_Ajax{
 
 						    if( $post_thumbnail_id ){
 						        $attachment_src = wp_get_attachment_image_src( $post_thumbnail_id, $product_image_size );
-						        $image = $attachment_src[0];
+
+						        // Check for image existence
+						        if( isset( $attachment_src[0] ) ){
+							        $image = $attachment_src[0];						        	
+						        } else {
+									$image = WC_NEWSLETTER_GENERATOR_URL . 'assets/default-product-image.png';
+						        }
 						    } else {
 								$image = WC_NEWSLETTER_GENERATOR_URL . 'assets/default-product-image.png';
 						    }		
-							$blocks[$block_id][$mode]['image'] 		= $image;
+							$blocks[$block_id][$mode]['image'] = $image;
 						    					
 						}
 						break;
