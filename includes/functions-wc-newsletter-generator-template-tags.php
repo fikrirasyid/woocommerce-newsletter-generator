@@ -143,19 +143,10 @@ function wcng_image_block( $block_id = 'header', $width = 150, $height = 150, $t
   }
 
   // Defining variables
-  if( $image && isset( $wcng[$block_id]['image']['image'] ) ){
-    $image = esc_attr( $wcng[$block_id]['image']['image'] );
-  }
-
-  if( $text && isset( $wcng[$block_id]['image']['text'] ) ){
-    $text = esc_attr( $wcng[$block_id]['image']['text'] );
-  }
-
-  if( $link && isset( $wcng[$block_id]['image']['text'] ) ){
-    $link = esc_url( $wcng[$block_id]['image']['text'] );
-  }  
-
-  $width = intval( $width );
+  $image  = wcng_get_value( $block_id, 'image', 'image', $image );
+  $text   = wcng_get_value( $block_id, 'image', 'text', $text );
+  $link   = wcng_get_value( $block_id, 'image', 'link', $link );
+  $width  = intval( $width );
   $height = intval( $height );
 
   // Print wrapper for admin
@@ -196,42 +187,12 @@ function wcng_image_block( $block_id = 'header', $width = 150, $height = 150, $t
 function wcng_product_block( $block_id = '', $product_image_size = 'wcng-product-thumb' ){
   global $wcng;
   
-  // Check if the product block has saved value
-  
-  // Get product ID
-  if( isset( $wcng[$block_id]['product']['product_id'] ) ){
-    $product_id = $wcng[$block_id]['product']['product_id'];
-  } else {
-    $product_id = 0;
-  }
-  
-  // Get permalink
-  if( isset( $wcng[$block_id]['product']['permalink'] ) ){
-    $permalink = $wcng[$block_id]['product']['permalink'];
-  } else {
-    $permalink = '#';
-  }    
-
-  // Get product name
-  if( isset( $wcng[$block_id]['product']['title'] ) ){
-    $title = $wcng[$block_id]['product']['title'];
-  } else {
-    $title = __( 'Product Name', 'woocommerce-newsletter-generator' );
-  }  
-
-  // Get product price
-  if( isset( $wcng[$block_id]['product']['price'] ) ){
-    $price = $wcng[$block_id]['product']['price'];
-  } else {
-    $price = '-';
-  }    
-
-  // Get product image
-  if( isset( $wcng[$block_id]['product']['image'] ) ){
-    $image = $wcng[$block_id]['product']['image'];
-  } else {
-    $image = WC_NEWSLETTER_GENERATOR_URL . 'assets/default-product-image.png';
-  }    
+  // Get product data
+  $product_id = wcng_get_value( $block_id, 'product', 'product_id', 0 );
+  $permalink  = wcng_get_value( $block_id, 'product', 'permalink', '#');
+  $title      = wcng_get_value( $block_id, 'product', 'title', __( 'Product Name', 'woocommerce-newsletter-generator' ) );
+  $price      = wcng_get_value( $block_id, 'product', 'price', '-' );
+  $image      = wcng_get_value( $block_id, 'product', 'image', WC_NEWSLETTER_GENERATOR_URL . 'assets/default-product-image.png' );
 
   // Print wrapper for admin
   if( wcng_current_user_can_edit_newsletter() ){
@@ -278,9 +239,7 @@ function wcng_product_block( $block_id = '', $product_image_size = 'wcng-product
 function wcng_text_block( $block_id = 'footer', $default = ''){
   global $wcng;
 
-  if( $default && isset( $wcng[$block_id]['text']['text'] ) ){
-    $default = $wcng[$block_id]['text']['text'];
-  }
+  $text = wcng_get_value( $block_id, 'text', 'text', $default );
 
   // Print wrapper for admin
   if( wcng_current_user_can_edit_newsletter() ){
@@ -289,7 +248,7 @@ function wcng_text_block( $block_id = 'footer', $default = ''){
     echo '<div class="the-text">';
   }  
 
-  echo esc_textarea( $default );
+  echo esc_textarea( $text );
 
   // Close wrapper for admin
   if( wcng_current_user_can_edit_newsletter() ){
@@ -336,4 +295,24 @@ function wcng_the_products(){
   }
 
   wp_reset_postdata();
+}
+
+/**
+ * Get values from wcng_data
+ * 
+ * @param string of block ID
+ * @param string of mode (image|text|product)
+ * @param string of property (text|image|id|permalink)
+ * @param mixed of default value
+ * 
+ * @return string of fetched value
+ */
+function wcng_get_value( $block_id, $mode, $property, $default = '' ){
+    global $wcng;
+
+    if( isset( $wcng[$block_id][$mode][$property] ) ){
+      return $wcng[$block_id][$mode][$property];
+    } else {
+      return $default;
+    }
 }
