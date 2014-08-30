@@ -33,6 +33,12 @@ class WC_Newsletter_Generator_Editor{
 	 * @return void
 	 */
 	function register_meta_box(){
+		global $post;
+
+		if( 'publish' == $post->post_status ){
+			add_meta_box('newsletter-markup-metabox', __( 'Newsletter HTML Code', 'woocommerce-newsletter-generator' ), array( $this, 'meta_box_markup' ), 'newsletter' );
+		}
+
 		add_meta_box('newsletter-metabox', __( 'Newsletter', 'woocommerce-newsletter-generator' ), array( $this, 'meta_box' ), 'newsletter' );		
 	}
 
@@ -90,6 +96,19 @@ class WC_Newsletter_Generator_Editor{
 		<?php
 
 		//  
+	}
+
+	/**
+	 * Render meta box for copy pasting markup
+	 * 
+	 * @return void
+	 */
+	function meta_box_markup(){
+		global $post;
+
+		?>
+			<pre id="newsletter-markup" data-permalink="<?php echo get_the_permalink( $post->ID ); ?>" contenteditable="true"><?php echo htmlspecialchars( file_get_contents( get_the_permalink( $post->ID ) ) ); ?></pre>
+		<?php
 	}
 }
 new WC_Newsletter_Generator_Editor;

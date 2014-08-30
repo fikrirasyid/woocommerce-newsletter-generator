@@ -17,3 +17,13 @@
   text-align: center;
   padding: 20px;
 }
+
+#newsletter-markup {
+  display: block;
+  margin-top: 10px;
+  border: 1px solid #dfdfdf;
+  background: #fafafa;
+  padding: 10px;
+  height: 200px;
+  overflow: auto;
+}
