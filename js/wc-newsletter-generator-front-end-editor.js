@@ -159,16 +159,15 @@ jQuery(document).ready(function($){
 		var target 				= $('#block-selector').attr('data-target');
 		var product_id 			= button.attr('data-product-id');
 		var product_img 		= product.find('.image-wrap img').attr('src');
-		var product_name 		= product.find('.product-name').html();
-		var product_name_only 	= product.find('.product-name a').text();
+		var product_name 		= product.find('.product-name a').text();
 		var product_price	 	= product.find('.product-price').html();
 		var product_permalink 	= product.find('.product-name a').attr('href');
 		var product_image_size	= $('.edit-content-block[data-id="'+target+'"]').attr('data-product-image-size');
 
 		// Update UI
-		$('.edit-content-block[data-id="'+target+'"] .product-image a').attr({ 'href' : product_permalink, 'title' : product_name_only });
-		$('.edit-content-block[data-id="'+target+'"] .product-image img').attr('src', product_img);
-		$('.edit-content-block[data-id="'+target+'"] .product-name').html(product_name);
+		$('.edit-content-block[data-id="'+target+'"] .product-image a').attr({ 'href' : product_permalink, 'title' : product_name });
+		$('.edit-content-block[data-id="'+target+'"] .product-image img').attr({ 'src' : product_img, 'alt' : product_name });
+		$('.edit-content-block[data-id="'+target+'"] .product-name a').attr({ 'href' : product_permalink, 'title' : product_name }).text( product_name );
 		$('.edit-content-block[data-id="'+target+'"] .product-price').html(product_price);
 
 		// Close the block editor
