@@ -114,7 +114,15 @@ jQuery(document).ready(function($){
 		close_edit_ui();
 
 		// Sync to server
-		sync_update( target, 'image', { text : text, image : image, link : href } );
+		sync_update( 
+			target, 
+			'image', 
+			{ 
+				text : text, 
+				image : image, 
+				link : href 
+			} 
+		);
 	});
 
 	// Text
@@ -132,7 +140,13 @@ jQuery(document).ready(function($){
 		close_edit_ui();
 
 		// Sync to server
-		sync_update( target, 'text', { text : text } );
+		sync_update( 
+			target, 
+			'text', 
+			{ 
+				text : text 
+			} 
+		);
 	});
 
 	// Product
@@ -160,7 +174,13 @@ jQuery(document).ready(function($){
 		close_edit_ui();
 
 		// Sync to server
-		sync_update( target, 'product', { product_id : product_id } );
+		sync_update( 
+			target, 
+			'product', 
+			{ 
+				product_id : product_id
+			} 
+		);
 	});
 
 	/**
@@ -254,7 +274,7 @@ jQuery(document).ready(function($){
 	}
 
 	// Sync update to server
-	function sync_update( block_id, mode, args ){
+	function sync_update( block_id, mode, properties ){
 		// Start loading state
 		loading_start( wcng_params.loading_message_update + block_id );
 
@@ -264,11 +284,14 @@ jQuery(document).ready(function($){
 			type : 'POST',
 			data : {
 				method 			: 'update',
+				post_id 		: wcng_params.post_id,
 				_n 				: wcng_params._n_update,
-				post_id 	: wcng_params.post_id,
-				block_id 		: block_id,
-				mode 			: mode,
-				args 			: args
+				args 			: {
+					post_id 	: wcng_params.post_id,
+					block_id 	: block_id,
+					mode 		: mode,
+					properties	: properties
+				}
 			}
 		}).done(function(response){
 			data = $.parseJSON( response );

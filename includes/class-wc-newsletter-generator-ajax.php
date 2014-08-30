@@ -127,10 +127,10 @@ class WC_Newsletter_Generator_Ajax{
 	function update( $params = array() ){
 		// Default values
 		$defaults = array(
-			'post_id' => false,
+			'post_id' 		=> false,
 			'block_id' 		=> false,
 			'mode'			=> false,
-			'args'			=> false
+			'properties'	=> false
 		);
 
 		// Parse args
@@ -138,7 +138,7 @@ class WC_Newsletter_Generator_Ajax{
 		extract( $params, EXTR_SKIP );
 
 		// Check minimum requirement parameter
-		if( !$post_id || !$block_id || !$mode || !$args ){
+		if( !$post_id || !$block_id || !$mode || !$properties ){
 			return false;
 		}
 
@@ -153,8 +153,8 @@ class WC_Newsletter_Generator_Ajax{
 		// Update blocks value
 		$allow_args = array( 'product_id', 'text', 'image', 'link' );
 
-		$args = (array)$args;
-		foreach ( $args as $arg_key => $arg ) {
+		$properties = (array)$properties;
+		foreach ( $properties as $arg_key => $arg ) {
 			if( in_array( $arg_key, $allow_args ) ){
 				switch ( $arg_key ) {
 					case 'product_id':
