@@ -1,9 +1,11 @@
 <?php
 class WC_Newsletter_Generator_Editor{
 	var $prefix;
+	var $wc_newsletter_generator;
 
 	function __construct(){
 		$this->prefix = 'wcng_';
+		$this->wc_newsletter_generator = new WC_Newsletter_Generator;
 
 		add_action( 'admin_print_styles', 	array( $this, 'enqueue_styles_scripts' ) );
 		add_action( 'add_meta_boxes', 		array( $this, 'register_meta_box' ) );
@@ -42,8 +44,6 @@ class WC_Newsletter_Generator_Editor{
 	function meta_box(){
 		global $post;
 
-		$templates = new WC_Newsletter_Generator;
-
 		// Set previewer visibility. auto-draft will not see the previewer until the status of the draft is changed into draft
 		// which will be changed when the template is selected
 		if( 'auto-draft' == $post->post_status ){
@@ -58,11 +58,19 @@ class WC_Newsletter_Generator_Editor{
 				<select name="wcng_select_template" id="wcng_select_template">
 					<option value=""><?php _e( 'Select Template', 'woocommerce-newsletter-generator' ); ?></option>
 					<?php 
-						if( is_array( $templates->templates_list() ) ){
+						if( is_array( $this->wc_newsletter_generator->templates_list() ) ){
 
-							foreach ($templates->templates_list() as $option) {
+							// Get currently saved template
+							$template = $this->wc_newsletter_generator->get_template( $post->ID );
 
-								echo "<option value='$option'>$option</option>";
+							foreach ($this->wc_newsletter_generator->templates_list() as $option) {
+
+								// Apply selected="selected" if the value has been saved
+								if( $option == $template ){
+									echo "<option value='$option' selected='selected'>$option</option>";									
+								} else {
+									echo "<option value='$option'>$option</option>";									
+								}
 
 							}
 

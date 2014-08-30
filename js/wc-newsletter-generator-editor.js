@@ -4,6 +4,12 @@ jQuery(document).ready(function($){
 	var endpoint 			= newsletter_preview.attr( 'data-endpoint' );
 	var post_id 			= newsletter_preview.attr( 'data-post-id' );
 	var nonce 				= newsletter_preview.attr( 'data-nonce' );
+	var selected_template 	= $('#wcng_select_template option:selected').val();
+
+	// If this post already have template on page load
+	if( '' != selected_template ){
+		$('#newsletter-preview').html('<iframe src="'+ preview_url +'" width="100%" height="550"></iframe>');
+	}
 
 	// Trigger auto-draft to draft status change when the template is selected
 	$('body').on('change', '#wcng_select_template', function(){
