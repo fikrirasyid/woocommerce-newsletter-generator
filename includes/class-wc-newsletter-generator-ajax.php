@@ -23,7 +23,7 @@ class WC_Newsletter_Generator_Ajax{
 		// Default variables
 		$defaults = array(
 			'method' 		=> 'get_products',
-			'newsletter_id' => 0,
+			'post_id' => 0,
 			'_n'			=> false,
 			'args'			=> array()
 		);
@@ -35,7 +35,7 @@ class WC_Newsletter_Generator_Ajax{
 		// Authentication
 		if( in_array( $method, $this->available_methods ) && 
 			wcng_current_user_can_edit_newsletter() && 
-			wp_verify_nonce( $_n, "{$method}_{$newsletter_id}" ) )
+			wp_verify_nonce( $_n, "{$method}_{$post_id}" ) )
 		{
 			$output = $this->$method( $args );
 		} else {
@@ -127,7 +127,7 @@ class WC_Newsletter_Generator_Ajax{
 	function update( $params = array() ){
 		// Default values
 		$defaults = array(
-			'newsletter_id' => false,
+			'post_id' => false,
 			'block_id' 		=> false,
 			'mode'			=> false,
 			'args'			=> false
@@ -138,12 +138,12 @@ class WC_Newsletter_Generator_Ajax{
 		extract( $params, EXTR_SKIP );
 
 		// Check minimum requirement parameter
-		if( !$newsletter_id || !$block_id || !$mode || !$args ){
+		if( !$post_id || !$block_id || !$mode || !$args ){
 			return false;
 		}
 
 		// Get current value
-		$blocks = get_post_meta( $newsletter_id, '_newsletter_blocks', true );
+		$blocks = get_post_meta( $post_id, '_newsletter_blocks', true );
 
 		// If blocks 'is' still empty
 		if( !$blocks ){
@@ -169,10 +169,10 @@ class WC_Newsletter_Generator_Ajax{
 		}
 
 		// Save the blocks value
-		update_post_meta( $newsletter_id, '_newsletter_blocks', $blocks );
+		update_post_meta( $post_id, '_newsletter_blocks', $blocks );
 
 		// Get the updated postmeta
-		$new_blocks = get_post_meta( $newsletter_id, '_newsletter_blocks', true );
+		$new_blocks = get_post_meta( $post_id, '_newsletter_blocks', true );
 
 		return $new_blocks[$block_id][$mode];
 	}

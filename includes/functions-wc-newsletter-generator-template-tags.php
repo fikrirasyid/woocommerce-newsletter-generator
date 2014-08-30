@@ -58,7 +58,7 @@ function wcng_email_footer(){
         <input type="submit" value="<?php _e( 'Update', 'woocommerce-newsletter-generator' ); ?>">
       </form><!-- #edit-image -->
 
-      <form action="<?php echo site_url('/wp-admin/admin-ajax.php?action=wcng_endpoint&newsletter_id=' . get_the_ID() ); ?>" class="edit-block-form" id="edit-product">
+      <form action="<?php echo site_url('/wp-admin/admin-ajax.php?action=wcng_endpoint&post_id=' . get_the_ID() ); ?>" class="edit-block-form" id="edit-product">
         <p>
           <label for=""><?php _e( 'Select Product', 'woocommerce-newsletter-generator' ); ?></label>
         </p>

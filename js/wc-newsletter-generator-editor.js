@@ -30,7 +30,7 @@ jQuery(document).ready(function($){
 				data : {
 		 			_n 				: nonce,
 		 			method 			: 'change_template',
-		 			newsletter_id 	: post_id,
+		 			post_id 	: post_id,
 		 			args 			: { 
 		 				template : selected_option, 
 		 				post_id : post_id 

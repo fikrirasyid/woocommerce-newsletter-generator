@@ -85,7 +85,7 @@ class WC_Newsletter_Generator_Public{
 
 			// Attaching variables for scripts
 			$wcng_params = array(
-				'newsletter_id' 					=> $post->ID,
+				'post_id' 					=> $post->ID,
 				'_n_update'							=> wp_create_nonce( 'update_' . $post->ID ),
 				'_n_get_products'					=> wp_create_nonce( 'get_products_' . $post->ID ),
 				'endpoint'							=> site_url( '/wp-admin/admin-ajax.php?action=wcng_endpoint' ),

@@ -264,7 +264,7 @@ jQuery(document).ready(function($){
 			data : {
 				method 			: 'update',
 				_n 				: wcng_params._n_update,
-				newsletter_id 	: wcng_params.newsletter_id,
+				post_id 	: wcng_params.post_id,
 				block_id 		: block_id,
 				mode 			: mode,
 				args 			: args
