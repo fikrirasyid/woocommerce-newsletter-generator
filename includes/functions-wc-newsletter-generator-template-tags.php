@@ -136,15 +136,33 @@ function wcng_email_footer(){
 function wcng_data( $post_id ){
   $blocks = get_post_meta( $post_id, '_wcng_blocks', true );
 
-  // Append campaign name to wcng_data
-  $campaign_name = get_post_meta( $post_id, '_wcng_campaign_name', true );
-  if( !$campaign_name ){
-    $blocks['campaign_name'] = 'Newsletter';
-  } else {
-    $blocks['campaign_name'] = $campaign_name;
-  }
+  $blocks['campaign_parameters'] = get_post_meta( $post_id, '_wcng_campaign_parameters', true );
 
   return $blocks;
+}
+
+/**
+ * Get wcng campaign parameters
+ * 
+ * @param int post_id
+ * 
+ * @return array of campaign parameters
+ */
+function wcng_campaign_parameters( $post_id ){
+
+  // Default campaign parameters
+  $defaults_campaign_parameters = array(
+    'utm_source'    => '',
+    'utm_medium'    => '',
+    'utm_term'      => '',
+    'utm_content'   => '',
+    'utm_name'      => ''
+  );
+
+  // Get campaign parameters
+  $campaign_parameters = get_post_meta( $post_id, '_wcng_campaign_parameters', true );
+
+  return wp_parse_args( $campaign_parameters, $defaults_campaign_parameters );
 }
 
 /**
@@ -360,11 +378,7 @@ function wcng_permalink( $url, $query_strings = array() ){
   }
 
   // Provide default query string
-  $default_query_strings = array( 
-    'utm_source'    => 'Email', 
-    'utm_medium'    => 'Email', 
-    'utm_campaign'  => $wcng['campaign_name'] 
-  );
+  $default_query_strings = $wcng['campaign_parameters'];
 
   // Default query strings
   if( isset( $url_parsed['query'] ) && '' != $url_parsed['query'] ){

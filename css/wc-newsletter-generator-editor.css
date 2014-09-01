@@ -29,3 +29,16 @@
   resize: none;
   width: 100%;
 }
+
+#custom-campaign-parameters {
+  display: block;
+  padding: 40px 0 10px;
+}
+#custom-campaign-parameters input[type="text"] {
+  width: 50%;
+}
+#custom-campaign-parameters .description {
+  display: block;
+  padding: 10px 0 10px;
+  color: #afafaf;
+}
