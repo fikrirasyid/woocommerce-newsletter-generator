@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: WooCommerce Newsletter Generator
- Plugin URI: 
+ Plugin URI: http://pro.fikrirasyid.com/portfolio/woocommerce-newsletter-generator/
  Description: Generate HTML email from WooCommerce's product
  Author: Fikri Rasyid
  Version: 0.1
