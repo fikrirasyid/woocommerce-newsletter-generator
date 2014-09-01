@@ -355,7 +355,7 @@ function wcng_permalink( $url, $query_strings = array() ){
 
   // Parse URL
   $url_parsed = parse_url( $url );
-  if( empty( $url_parsed ) ){
+  if( !$url || empty( $url_parsed ) ){
     return;
   }
 
