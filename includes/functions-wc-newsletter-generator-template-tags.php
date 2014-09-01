@@ -136,6 +136,14 @@ function wcng_email_footer(){
 function wcng_data( $post_id ){
   $blocks = get_post_meta( $post_id, '_newsletter_blocks', true );
 
+  // Append campaign name to wcng_data
+  $campaign_name = get_post_meta( $post_id, '_wcng_campaign_name' );
+  if( !$campaign_name ){
+    $blocks['campaign_name'] = 'Newsletter';
+  } else {
+    $blocks['campaign_name'] = $campaign_name;
+  }
+
   return $blocks;
 }
 
@@ -162,7 +170,7 @@ function wcng_image_block( $block_id = 'header', $width = 150, $height = 150, $t
   // Defining variables
   $image  = wcng_get_value( $block_id, 'image', 'image', $image );
   $text   = wcng_get_value( $block_id, 'image', 'text', $text );
-  $link   = wcng_get_value( $block_id, 'image', 'link', $link );
+  $link   = wcng_permalink( wcng_get_value( $block_id, 'image', 'link', $link ) );
   $width  = intval( $width );
   $height = intval( $height );
 
@@ -206,7 +214,7 @@ function wcng_product_block( $block_id = '', $product_image_size = 'wcng-product
   
   // Get product data
   $product_id = wcng_get_value( $block_id, 'product', 'product_id', 0 );
-  $permalink  = wcng_get_value( $block_id, 'product', 'permalink', '#');
+  $permalink  = wcng_permalink( wcng_get_value( $block_id, 'product', 'permalink', '#' ) );
   $title      = wcng_get_value( $block_id, 'product', 'title', __( 'Product Name', 'woocommerce-newsletter-generator' ) );
   $price      = wcng_get_value( $block_id, 'product', 'price', '-' );
   $image      = wcng_get_value( $block_id, 'product', 'image', WC_NEWSLETTER_GENERATOR_URL . 'assets/default-product-image.png' );
@@ -343,15 +351,19 @@ function wcng_get_value( $block_id, $mode, $property, $default = '' ){
  * @return string of url
  */
 function wcng_permalink( $url, $query_strings = array() ){
+  global $wcng;
 
   // Parse URL
   $url_parsed = parse_url( $url );
+  if( empty( $url_parsed ) ){
+    return;
+  }
 
   // Provide default query string
   $default_query_strings = array( 
     'utm_source'    => 'Email', 
     'utm_medium'    => 'Email', 
-    'utm_campaign'  => 'Newsletter' 
+    'utm_campaign'  => $wcng['campaign_name'] 
   );
 
   // Default query strings
