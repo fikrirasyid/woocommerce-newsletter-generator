@@ -143,7 +143,7 @@ class WC_Newsletter_Generator_Ajax{
 		}
 
 		// Get current value
-		$blocks = get_post_meta( $post_id, '_newsletter_blocks', true );
+		$blocks = get_post_meta( $post_id, '_wcng_blocks', true );
 
 		// If blocks 'is' still empty
 		if( !$blocks ){
@@ -200,10 +200,10 @@ class WC_Newsletter_Generator_Ajax{
 		}
 
 		// Save the blocks value
-		update_post_meta( $post_id, '_newsletter_blocks', $blocks );
+		update_post_meta( $post_id, '_wcng_blocks', $blocks );
 
 		// Get the updated postmeta
-		$new_blocks = get_post_meta( $post_id, '_newsletter_blocks', true );
+		$new_blocks = get_post_meta( $post_id, '_wcng_blocks', true );
 
 		return $new_blocks[$block_id][$mode];
 	}

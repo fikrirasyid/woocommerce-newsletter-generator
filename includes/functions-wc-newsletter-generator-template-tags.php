@@ -134,7 +134,7 @@ function wcng_email_footer(){
  * @return array of well-prepared $wcng data
  */
 function wcng_data( $post_id ){
-  $blocks = get_post_meta( $post_id, '_newsletter_blocks', true );
+  $blocks = get_post_meta( $post_id, '_wcng_blocks', true );
 
   // Append campaign name to wcng_data
   $campaign_name = get_post_meta( $post_id, '_wcng_campaign_name', true );
