@@ -137,7 +137,7 @@ function wcng_data( $post_id ){
   $blocks = get_post_meta( $post_id, '_newsletter_blocks', true );
 
   // Append campaign name to wcng_data
-  $campaign_name = get_post_meta( $post_id, '_wcng_campaign_name' );
+  $campaign_name = get_post_meta( $post_id, '_wcng_campaign_name', true );
   if( !$campaign_name ){
     $blocks['campaign_name'] = 'Newsletter';
   } else {

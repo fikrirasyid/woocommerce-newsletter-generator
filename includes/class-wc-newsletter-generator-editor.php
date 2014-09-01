@@ -9,6 +9,7 @@ class WC_Newsletter_Generator_Editor{
 
 		add_action( 'admin_print_styles', 	array( $this, 'enqueue_styles_scripts' ) );
 		add_action( 'add_meta_boxes', 		array( $this, 'register_meta_box' ) );
+		add_action( 'save_post', 			array( $this, 'save_meta_box' ) );
 	}
 
 	/**
@@ -43,6 +44,40 @@ class WC_Newsletter_Generator_Editor{
 	}
 
 	/**
+	 * Save meta box's value
+	 * 
+	 * @since 0.1
+	 * 
+	 * @param int Post ID
+	 * 
+	 * @return void
+	 */
+	function save_meta_box( $post_id ){
+		$screen = get_current_screen();
+
+		// Only run this on newsletter editor screen
+		if ($screen != null && $screen->post_type != 'newsletter') 
+			return;
+
+		// Cancel if this is an autosave
+		if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+			return;
+
+		// Verify nonce
+		if( !isset( $_POST['wcng_nonce'] ) || 
+			!wp_verify_nonce( $_POST['wcng_nonce'], "wcng_save_{$post_id}" ) ) 
+			return;
+
+		// if our current user can't edit this post, bail
+		if( !current_user_can( 'edit_posts' ) ) return;
+
+		// Updating process
+		if( isset( $_POST['wcng_campaign_name'] ) ) 
+			update_post_meta( $post_id, '_wcng_campaign_name', sanitize_text_field( $_POST['wcng_campaign_name'] ) ); 
+
+	}
+
+	/**
 	 * Render meta box
 	 * 
 	 * @return void
@@ -59,6 +94,13 @@ class WC_Newsletter_Generator_Editor{
 		}
 
 		?>
+			<p>
+				<label for="wcng_campaign_name"><?php _e( 'Campaign Name', 'woocommerce-newsletter-generator' ); ?></label>
+				<input type="text" class="wide" name="wcng_campaign_name" id="campaign_wcng_name" value="<?php echo get_post_meta( $post->ID, '_wcng_campaign_name', true ); ?>" placeholder="<?php _e( 'e.g. Newsletter', 'woocommerce-newsletter-generator' ); ?>">
+				<span class="description" style="display: block; margin: 10px 0 20px;">
+					<?php _e( 'WooCommerce Newsletter Generator automatically append Google Analytics\'s parameter on your email\'s links on your email with.', 'woocommerce-newsletter-generator' ); ?>
+				</span>
+			</p>
 			<p>
 				<label for="wcng_select_template"><?php _e( 'Select Template', 'woocommerce-newsletter-generator' ); ?></label>
 				<select name="wcng_select_template" id="wcng_select_template">
@@ -94,6 +136,8 @@ class WC_Newsletter_Generator_Editor{
 				<span><?php _e( 'Initializing newsletter preview screen...', 'woocommerce-newsletter-generator' ); ?></span>
 			</div>
 		<?php
+
+		wp_nonce_field( "wcng_save_{$post->ID}", 'wcng_nonce' );
 
 		//  
 	}
