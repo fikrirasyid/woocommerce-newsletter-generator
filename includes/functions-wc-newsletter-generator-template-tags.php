@@ -333,3 +333,51 @@ function wcng_get_value( $block_id, $mode, $property, $default = '' ){
       return $default;
     }
 }
+
+/**
+ * Safely append query string for analytics-tracking
+ * 
+ * @param given URL
+ * @param array of query strings
+ * 
+ * @return string of url
+ */
+function wcng_permalink( $url, $query_strings = array() ){
+
+  // Parse URL
+  $url_parsed = parse_url( $url );
+
+  // Provide default query string
+  $default_query_strings = array( 
+    'utm_source'    => 'Email', 
+    'utm_medium'    => 'Email', 
+    'utm_campaign'  => 'Newsletter' 
+  );
+
+  // Default query strings
+  if( isset( $url_parsed['query'] ) && '' != $url_parsed['query'] ){
+
+    // Parse given query string
+    parse_str( $url_parsed['query'], $url_query_strings ); 
+
+    // Append the query strings from URL given to the default query strings
+    $default_query_strings = wp_parse_args( $url_query_strings, $default_query_strings );
+  }
+
+  $query_strings = wp_parse_args( $query_strings, $default_query_strings );
+
+  // Generate query string
+  $query = '';
+
+  // Use loop since it's faster
+  foreach ($query_strings as $query_key => $query_value) {
+    $query .= "{$query_key}={$query_value}&";
+  }
+
+  // Generate new URl
+  if( isset( $url_parsed['path'] ) ){
+    return "{$url_parsed['scheme']}://{$url_parsed['host']}{$url_parsed['path']}?{$query}";    
+  } else {
+    return "{$url_parsed['scheme']}://{$url_parsed['host']}?{$query}";        
+  }
+}
