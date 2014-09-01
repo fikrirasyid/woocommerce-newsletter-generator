@@ -151,7 +151,7 @@ class WC_Newsletter_Generator_Editor{
 		global $post;
 
 		?>
-			<pre id="newsletter-markup" data-permalink="<?php echo get_the_permalink( $post->ID ); ?>" contenteditable="true"><?php echo htmlspecialchars( file_get_contents( get_the_permalink( $post->ID ) ) ); ?></pre>
+			<textarea id="newsletter-markup" data-permalink="<?php echo get_the_permalink( $post->ID ); ?>" disabled="disabled"><?php echo htmlspecialchars( file_get_contents( get_the_permalink( $post->ID ) ) ); ?></textarea>
 		<?php
 	}
 }

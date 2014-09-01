@@ -26,4 +26,6 @@
   padding: 10px;
   height: 200px;
   overflow: auto;
+  resize: none;
+  width: 100%;
 }
