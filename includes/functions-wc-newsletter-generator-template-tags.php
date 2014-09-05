@@ -156,7 +156,7 @@ function wcng_campaign_parameters( $post_id ){
     'utm_medium'    => '',
     'utm_term'      => '',
     'utm_content'   => '',
-    'utm_name'      => ''
+    'utm_campaign'      => ''
   );
 
   // Get campaign parameters

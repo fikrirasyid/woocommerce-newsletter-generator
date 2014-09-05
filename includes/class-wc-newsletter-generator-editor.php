@@ -87,7 +87,7 @@ class WC_Newsletter_Generator_Editor{
 			$campaign_parameters['utm_content'] = sanitize_title( $_POST['wcng_campaign_content'] );
 
 		if( isset( $_POST['wcng_campaign_name'] ) )
-			$campaign_parameters['utm_name'] = sanitize_title( $_POST['wcng_campaign_name'] );
+			$campaign_parameters['utm_campaign'] = sanitize_title( $_POST['wcng_campaign_name'] );
 
 		// Updating process
 		if( isset( $_POST['wcng_campaign_name'] ) ) 
@@ -120,7 +120,7 @@ class WC_Newsletter_Generator_Editor{
 			'utm_medium' 	=> '',
 			'utm_term'		=> '',
 			'utm_content' 	=> '',
-			'utm_name'		=> ''
+			'utm_campaign'		=> ''
 		);
 
 		// Parse campaign parameters against default values
@@ -197,7 +197,7 @@ class WC_Newsletter_Generator_Editor{
 
 				<p>
 					<label for="wcng_campaign_name"><?php _e( 'Campaign Name', 'woocommerce-newsletter-generator' ); ?></label>
-					<input type="text" class="wide" name="wcng_campaign_name" id="campaign_wcng_name" value="<?php echo $campaign_parameters['utm_name']; ?>">
+					<input type="text" class="wide" name="wcng_campaign_name" id="campaign_wcng_name" value="<?php echo $campaign_parameters['utm_campaign']; ?>">
 					<span class="description"><?php _e( 'product, promo code, or slogan', 'woocommerce-newsletter-generator' ); ?></span>
 				</p>
 			</div>
