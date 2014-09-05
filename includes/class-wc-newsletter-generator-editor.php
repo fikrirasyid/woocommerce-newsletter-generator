@@ -178,19 +178,19 @@ class WC_Newsletter_Generator_Editor{
 				</p>
 
 				<p>
-					<label for="wcng_campaign_medium"><?php _e( 'Campaign Source', 'woocommerce-newsletter-generator' ); ?></label>
+					<label for="wcng_campaign_medium"><?php _e( 'Campaign Medium', 'woocommerce-newsletter-generator' ); ?></label>
 					<input type="text" class="wide" name="wcng_campaign_medium" id="campaign_wcng_medium" value="<?php echo $campaign_parameters['utm_medium']; ?>">
 					<span class="description"><?php _e( 'marketing medium: cpc, banner, email', 'woocommerce-newsletter-generator' ); ?></span>
 				</p>				
 
 				<p>
-					<label for="wcng_campaign_term"><?php _e( 'Campaign Source', 'woocommerce-newsletter-generator' ); ?></label>
+					<label for="wcng_campaign_term"><?php _e( 'Campaign Term', 'woocommerce-newsletter-generator' ); ?></label>
 					<input type="text" class="wide" name="wcng_campaign_term" id="campaign_wcng_term" value="<?php echo $campaign_parameters['utm_term']; ?>">
 					<span class="description"><?php _e( 'identify the paid keywords', 'woocommerce-newsletter-generator' ); ?></span>
 				</p>
 
 				<p>
-					<label for="wcng_campaign_content"><?php _e( 'Campaign Source', 'woocommerce-newsletter-generator' ); ?></label>
+					<label for="wcng_campaign_content"><?php _e( 'Campaign Content', 'woocommerce-newsletter-generator' ); ?></label>
 					<input type="text" class="wide" name="wcng_campaign_content" id="campaign_wcng_content" value="<?php echo $campaign_parameters['utm_term']; ?>">
 					<span class="description"><?php _e( 'use to differentiate ads', 'woocommerce-newsletter-generator' ); ?></span>
 				</p>				
