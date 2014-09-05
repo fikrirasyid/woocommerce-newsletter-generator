@@ -80,13 +80,35 @@ class WC_Newsletter_Generator{
 					foreach ($template['product_image_sizes'] as $image_size ) {
 
 						// Push the image size
-						array_push( $image_sizes, $image_size );
+						$image_sizes[$image_size['id']] = $image_size;
 					}
 				}
 			}
 		}
 
 		return $image_sizes;
+	}
+
+	/**
+	 * Get image size based on the id given
+	 * 
+	 * @param string image size id
+	 * 
+	 * @return array
+	 */
+	function get_image_size( $id = 'wcng-product-thumb' ){
+
+		// Get image sizes 
+		$image_sizes = $this->image_sizes();
+
+		// Get the image size, create a fallback if intended size isn't found
+		if( isset( $image_sizes[$id]['width'] ) && isset( $image_sizes[$id]['height'] )  ){
+
+			return $image_sizes[$id];
+		} else{
+
+			return $image_sizes['wcng-product-thumb'];
+		}
 	}
 
 	/**

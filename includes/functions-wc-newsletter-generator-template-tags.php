@@ -230,6 +230,10 @@ function wcng_image_block( $block_id = 'header', $width = 150, $height = 150, $t
 function wcng_product_block( $block_id = '', $product_image_size = 'wcng-product-thumb' ){
   global $wcng;
   
+  // Init wc_newsletter_generator
+  $wc_newsletter_generator = new WC_Newsletter_Generator;
+  $image_size = $wc_newsletter_generator->get_image_size( $product_image_size );
+
   // Get product data
   $product_id = wcng_get_value( $block_id, 'product', 'product_id', 0 );
   $permalink  = wcng_permalink( wcng_get_value( $block_id, 'product', 'permalink', '#' ) );
@@ -249,7 +253,7 @@ function wcng_product_block( $block_id = '', $product_image_size = 'wcng-product
         <tr>
           <td class="product-image">
             <a href="<?php echo $permalink; ?>" title="<?php echo $title; ?>" style="color: #2ba6cb; text-decoration: none;">
-              <img src="<?php echo $image; ?>" width="160" height="220" alt="" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; max-width: 100%; float: left; clear: both; display: block; border: none;" align="left" />
+              <img src="<?php echo $image; ?>" width="<?php echo $image_size['width']; ?>" height="<?php echo $image_size['height']; ?>" alt="" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; max-width: 100%; float: left; clear: both; display: block; border: none;" align="left" />
             </a>                                              
           </td>                                            
         </tr>
