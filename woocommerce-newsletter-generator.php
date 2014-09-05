@@ -90,33 +90,7 @@ class WC_Newsletter_Generator_Setup{
 			'hierarchical'        => false, // bool (defaults to FALSE)
 			'has_archive'         => 'newsletter', // bool|string (defaults to FALSE)
 			'query_var'           => 'newsletter', // bool|string (defaults to TRUE - post type name)
-			'capability_type'     => 'newsletter', // string|array (defaults to 'post')
-			'map_meta_cap'        => true, // bool (defaults to FALSE)
-			'capabilities' => array(
-
-				// meta caps (don't assign these to roles)
-				'edit_post'              => 'edit_newsletter',
-				'read_post'              => 'read_newsletter',
-				'delete_post'            => 'delete_newsletter',
-
-				// primitive/meta caps
-				'create_posts'           => 'create_newsletters',
-
-				// primitive caps used outside of map_meta_cap()
-				'edit_posts'             => 'edit_newsletters',
-				'edit_others_posts'      => 'manage_newsletters',
-				'publish_posts'          => 'manage_newsletters',
-				'read_private_posts'     => 'read',
-
-				// primitive caps used inside of map_meta_cap()
-				'read'                   => 'read',
-				'delete_posts'           => 'manage_newsletters',
-				'delete_private_posts'   => 'manage_newsletters',
-				'delete_published_posts' => 'manage_newsletters',
-				'delete_others_posts'    => 'manage_newsletters',
-				'edit_private_posts'     => 'edit_newsletters',
-				'edit_published_posts'   => 'edit_newsletters'
-			),
+			'capability_type'     => 'post', // string|array (defaults to 'post')
 			'rewrite' => array(
 				'slug'       => 'newsletter', // string (defaults to the post type name)
 				'with_front' => false, // bool (defaults to TRUE)
@@ -150,7 +124,7 @@ class WC_Newsletter_Generator_Setup{
 		/* Register the post type. */
 		register_post_type(
 			'newsletter', // Post type name. Max of 20 characters. Uppercase and spaces not allowed.
-			$args      // Arguments for post type.
+			apply_filters( 'woocommerce_newsletter_generator_post_type_args', $args )      // Arguments for post type.
 		);
 	}
 
