@@ -53,6 +53,16 @@ jQuery(document).ready(function($){
 		var markup_permalink = markup.attr( 'data-permalink' );
 
 		$.get( markup_permalink, function( response ){
+
+			// Some web mail service don't load image which is served using relative protocol. Translate relative protocol into http / https
+			if( document.location.protocol == 'https:' ){
+				response = response.replace( new RegExp( "<img src='//", 'g' ), "<img src='https://" );
+				response = response.replace( new RegExp( '<img src="//', 'g' ), '<img src="https://' );
+			} else {
+				response = response.replace( new RegExp( "<img src='//", 'g' ), "<img src='http://" );
+				response = response.replace( new RegExp( '<img src="//', 'g' ), '<img src="http://' );				
+			}
+
 			markup.val( response );
 		});
 	}
