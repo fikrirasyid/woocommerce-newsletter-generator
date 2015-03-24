@@ -46,4 +46,14 @@ jQuery(document).ready(function($){
 
 		}
 	});
+
+	// Load HTML Code
+	if( $('#newsletter-markup').length > 0 ){
+		var markup = $('#newsletter-markup');
+		var markup_permalink = markup.attr( 'data-permalink' );
+
+		$.get( markup_permalink, function( response ){
+			markup.val( response );
+		});
+	}
 });
