@@ -238,7 +238,7 @@ function wcng_product_block( $block_id = '', $product_image_size = 'wcng-product
   $product_id = wcng_get_value( $block_id, 'product', 'product_id', 0 );
   $permalink  = wcng_permalink( wcng_get_value( $block_id, 'product', 'permalink', '#' ) );
   $title      = wcng_get_value( $block_id, 'product', 'title', __( 'Product Name', 'woocommerce-newsletter-generator' ) );
-  $price      = wcng_get_value( $block_id, 'product', 'price', '-' );
+  $price      = wcng_format_price( wcng_get_value( $block_id, 'product', 'price', '-' ) );
   $image      = wcng_get_value( $block_id, 'product', 'image', WC_NEWSLETTER_GENERATOR_URL . 'assets/default-product-image.png' );
 
   // Print wrapper for admin
@@ -409,5 +409,18 @@ function wcng_permalink( $url, $query_strings = array() ){
     return "{$url_parsed['scheme']}://{$url_parsed['host']}{$url_parsed['path']}?{$query}";    
   } else {
     return "{$url_parsed['scheme']}://{$url_parsed['host']}?{$query}";        
+  }
+}
+
+/**
+ * Formatting sale price
+ */
+function wcng_format_price( $price ){
+  $parsed_price = explode( ' ', $price );
+
+  if( count( $parsed_price ) == 2 ){
+    return sprintf( '<del>%s</del> %s', $parsed_price[0], $parsed_price[1] );
+  } else {
+    return $price;
   }
 }
