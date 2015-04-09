@@ -13,8 +13,8 @@
   cursor: pointer;
   border: 1px solid #ccc;
   font-size: 12px;
-  -webkit-box-shadow: inset 0 1px 0 white, 0 1px 0 rgba(0, 0, 0, 0.08);
-  box-shadow: inset 0 1px 0 white, 0 1px 0 rgba(0, 0, 0, 0.08);
+  -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0, 0, 0, 0.08);
 }
 .edit-content-block .toggle-edit-block:hover {
   background: #fafafa;
@@ -100,9 +100,11 @@
   position: absolute;
   top: 10px;
   left: 10px;
+  overflow: hidden;
 }
 #block-selector .edit-block-form #select-product-list li .image-wrap img {
   width: 100%;
+  height: auto;
 }
 #block-selector .edit-block-form #select-product-list li .product-name,
 #block-selector .edit-block-form #select-product-list li .product-price,
@@ -126,8 +128,8 @@
   cursor: pointer;
   border: 1px solid #ccc;
   font-size: 12px;
-  -webkit-box-shadow: inset 0 1px 0 white, 0 1px 0 rgba(0, 0, 0, 0.08);
-  box-shadow: inset 0 1px 0 white, 0 1px 0 rgba(0, 0, 0, 0.08);
+  -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0, 0, 0, 0.08);
 }
 #block-selector .edit-block-form #select-product-list li .select-this-product:hover {
   background: #fafafa;
@@ -160,8 +162,8 @@
   cursor: pointer;
   border: 1px solid #ccc;
   font-size: 12px;
-  -webkit-box-shadow: inset 0 1px 0 white, 0 1px 0 rgba(0, 0, 0, 0.08);
-  box-shadow: inset 0 1px 0 white, 0 1px 0 rgba(0, 0, 0, 0.08);
+  -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0, 0, 0, 0.08);
 }
 #block-selector .edit-block-form #edit-image-change-image:hover {
   background: #fafafa;
@@ -253,8 +255,8 @@
   cursor: pointer;
   border: 1px solid #ccc;
   font-size: 12px;
-  -webkit-box-shadow: inset 0 1px 0 white, 0 1px 0 rgba(0, 0, 0, 0.08);
-  box-shadow: inset 0 1px 0 white, 0 1px 0 rgba(0, 0, 0, 0.08);
+  -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0, 0, 0, 0.08);
 }
 #close-selector:hover {
   background: #fafafa;
