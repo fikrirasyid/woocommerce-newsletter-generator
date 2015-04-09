@@ -36,7 +36,7 @@ class WC_Newsletter_Generator_Public{
 			// Unhook actions from wp_head
 			foreach ( $wp_filter['wp_head'] as $priority => $wp_head_hooks ) {
 				if( is_array( $wp_head_hooks ) ){
-					foreach ( $wp_head_hooks as $wp_head_hook ) {
+					foreach ( $wp_head_hooks as $wp_head_hook_register => $wp_head_hook ) {
 
 						if( !is_array( $wp_head_hook['function'] ) && !in_array( $wp_head_hook['function'], $allowable_wp_head_actions ) ){
 							remove_action( 'wp_head', $wp_head_hook['function'], $priority );							
@@ -48,16 +48,30 @@ class WC_Newsletter_Generator_Public{
 			// Unhook actions from wp_footer
 			foreach ($wp_filter['wp_footer'] as $priority => $wp_footer_hooks ) {
 				if( is_array( $wp_footer_hooks ) ){
-					foreach ( $wp_footer_hooks as $wp_footer_hook ) {
+					foreach ( $wp_footer_hooks as $wp_footer_hook_register => $wp_footer_hook ) {
 
 						if( !is_array( $wp_footer_hook['function'] ) && !in_array( $wp_footer_hook['function'], $allowable_wp_footer_actions ) ){
-							remove_action( 'wp_footer', $wp_footer_hook['function'], $priority );
+							remove_action( 'wp_footer', $wp_footer_hook['function'], $priority );							
+						}
+
+						if( is_array( $wp_footer_hook['function'] ) && isset( $wp_footer_hook['function'][1] ) && !in_array( $wp_footer_hook['function'][1], $allowable_wp_footer_actions ) ){
+							remove_action( 'wp_footer', $wp_footer_hook_register, $priority );
 						}
 
 					}
 				}
 			}
+
+			// Make sure that admin bar isn't loaded on preview page
+			add_action( 'show_admin_bar', array( $this, 'hide_admin_bar') );					
 		}
+	}
+
+	/**
+	 * Hiding admin bar
+	 */
+	public function hide_admin_bar(){
+		return false;
 	}
 
 	/**
