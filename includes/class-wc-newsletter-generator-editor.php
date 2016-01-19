@@ -53,6 +53,8 @@ class WC_Newsletter_Generator_Editor{
 	 * @return void
 	 */
 	function save_meta_box( $post_id ){
+		if ( ! function_exists( 'get_current_screen' ) ) return;
+     
 		$screen = get_current_screen();
 
 		// Only run this on newsletter editor screen
@@ -218,7 +220,7 @@ class WC_Newsletter_Generator_Editor{
 		global $post;
 
 		?>
-			<textarea id="newsletter-markup" data-permalink="<?php echo get_the_permalink( $post->ID ); ?>" disabled="disabled" data-permalink="<?php echo get_the_permalink( $post->ID ); ?>"></textarea>
+			<textarea id="newsletter-markup" data-permalink="<?php echo get_the_permalink( $post->ID ); ?>" disabled="disabled"><?php echo htmlspecialchars( file_get_contents( get_the_permalink( $post->ID ) ) ); ?></textarea>
 		<?php
 	}
 }
